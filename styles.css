@@ -388,7 +388,7 @@ a.button.primary.disabled {
 }
 
 .dropzone-action-delete::before {
-	background: transparent url('/assets/icon-delete.svg') no-repeat;
+	background: transparent url('assets/icon-delete.svg') no-repeat;
 	background-size: cover;
 }
 
@@ -429,7 +429,7 @@ a.button.primary.disabled {
 
 .editor-help-markdown::before {
 	content: ' ';
-	background: transparent url('/assets/icon-markdown.svg') no-repeat;
+	background: transparent url('assets/icon-markdown.svg') no-repeat;
 	background-size: contain;
 	shape-rendering: crispEdges;
 	display: inline-block;
