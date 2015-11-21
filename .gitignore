@@ -1,0 +1,10 @@
+
+# Ignore npm scraps
+node_modules/
+npm-debug.log
+
+# Ignore design files
+design/
+
+# Ignore build files
+build/
