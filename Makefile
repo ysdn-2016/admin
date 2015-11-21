@@ -9,7 +9,11 @@ BIN := ./node_modules/.bin
 # Variables
 #
 
-PORT = 8080
+PORT ?= 8080
+
+REPO       = ysdn-2016/admin
+BRANCH     = $(shell git rev-parse --abbrev-ref HEAD)
+CHANGES    = $(shell git diff --exit-code --quiet HEAD; echo $$?)
 
 #
 # Tasks
@@ -31,6 +35,21 @@ watch: install
 		--port $(PORT) \
 		--dir source \
 		--live -- -t vueify -t [ babelify --presets es2015 ] | $(BIN)/garnish
+
+deploy:
+	@if [[ $(CHANGES) -ne 0 ]]; then echo "\033[0;31mError:\033[0m You have uncommitted changes. Please commit changes before deploying." && exit 1; fi
+	@echo "Deploying branch \033[0;33m$(BRANCH)\033[0m to Github pages..."
+	@make clean
+	@NODE_ENV=production make build
+	@(cd build && \
+		git init -q . && \
+		git add . && \
+		git commit -q -m "Deployment (auto-commit)" && \
+		echo "\033[0;90m" && \
+		git push "git@github.com:$(REPO).git" HEAD:gh-pages --force && \
+		echo "\033[0m")
+	@make clean
+	@echo "Deployed to \033[0;32mhttp://ysdn-2016.github.io/admin/\033[0m"
 
 clean:
 	@rm -rf build
