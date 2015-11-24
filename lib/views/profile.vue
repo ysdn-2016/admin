@@ -1,6 +1,6 @@
 <template>
 
-	<p>Hey {{ user.name }}...</p>
+	<p>Hey!</p>
 	<p>This section is coming soon. Hold your horses. 🐎🐎🐎</p>
 
 	<div class="profile-social-links">

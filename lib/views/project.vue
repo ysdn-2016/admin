@@ -2,13 +2,17 @@
 	<form class="project-form" v-on:submit.prevent="save" v-show="loading">
 		<header class="project-form-header">
 			<div class="project-form-header-context">
-				<a v-link="{ name: 'home' }">Home</a>
+				<a v-link="{ name: 'home' }" class="button">{{ published  ? 'Back' : 'Cancel' }}</a>
 			</div>
 			<div class="project-form-header-actions">
-				<a v-link="{ name: 'home' }" class="button">Cancel</a>
-				<a @click.prevent="save" class="button primary" v-bind:class="{ 'disabled': !valid }">{{ draft ? 'Save as a Draft' : 'Save' }}</a>
+
+				<a @click.prevent="save" class="button primary" :class="{ 'disabled': !valid }">{{ saveButtonTitle }}</a>
 			</div>
 		</header>
+		<div class="form-field project-draft-field" v-if="!published">
+			<label><input v-model="draft" type="checkbox" /> Draft</label>
+			<p class="form-field-note">Save this as a draft and come back to it later so it doesn't get published.</p>
+		</div>
 		<div class="form-field project-title-field" :class="{ 'error': validation.title.valid }">
 			<label class="form-field-label"  for="title">Project Title</label>
 			<input type="text" id="title" placeholder="Project Title..."
@@ -26,10 +30,6 @@
 				<span class="project-form-error" v-if="validation.title.minLength">Project title is too short</span>
 				<span class="project-form-error" v-if="validation.title.maxLength">Project title is too long</span>
 			</div>
-		</div>
-		<div class="form-field project-draft-field">
-			<label><input v-model="draft" type="checkbox" /> Draft</label>
-			<p class="form-field-note">Save this as a draft and come back to it later so it doesn't get published.</p>
 		</div>
 		<div class="form-field project-contents-field">
 			<label class="form-field-label">Project Contents</label>
@@ -56,6 +56,15 @@
 			<label class="form-field-label">Project Assets</label>
 			<dropzone :files="files" @insert="insertImage"></dropzone>
 		</div>
+		<div class="form-field project-tags-field">
+			<label for="category" class="form-field-label">Project Category</label>
+			<select id="category">
+				<option v-for="category in categories">{{ category }}</option>
+			</select>
+		</div>
+		<div class="form-field form-advanced-actions" v-if="id">
+			<a @click.prevent="delete">Delete Project</a>
+		</div>
 	</form>
 </template>
 
@@ -66,7 +75,7 @@ import autosize from 'autosize'
 import api from '../api'
 import auth from '../auth'
 import config from '../config'
-import dispatch from '../dispatch'
+import { router } from '../..'
 
 import slug from '../filters/slug'
 
@@ -90,8 +99,16 @@ export default {
 			owner_id: '',
 			draft: false,
 			files: [],
+			categories: [
+				'Interactive',
+				'Motion',
+				'Packaging',
+				'Information',
+				'Branding',
+				'Editorial',
+				'Print'
+			],
 			loading: true,
-			published: false,
 			previewing: false,
 			showErrors: false
 		}
@@ -114,6 +131,14 @@ export default {
 		},
 		url () {
 			return `${this.domain}/${slug(this.user.name)}/${slug(this.title)}`
+		},
+		published () {
+			return this.id && !this.draft
+		},
+		saveButtonTitle () {
+			if (this.draft) return 'Save as a draft'
+			if (!this.id) return 'Publish'
+			return 'Save'
 		}
 	},
 
@@ -123,8 +148,27 @@ export default {
 				this.showErrors = true
 				return
 			}
-			// TODO: hold for as long as it takes to save images
-			dispatch('project:save', this.$data)
+			api.projects.save(auth.user.id, {
+				id: this.id,
+				title: this.title,
+				contents: this.contents,
+				draft: this.draft
+			}).then(res => {
+				router.go({ name: 'project', params: { id: res.id }})
+			}).catch(err => {
+				alert(err.message)
+			})
+		},
+		delete () {
+			if (!this.id) return
+			if (!confirm(`Are you sure you want to delete this project? There's no going back.`)) return
+			api.projects.destroy(auth.user.id, this.id)
+				.then(res => {
+					router.go({ name: 'home' })
+				})
+				.catch(err => {
+					alert(err.message)
+				})
 		},
 		enableEditor () {
 			this.previewing = false
@@ -140,8 +184,20 @@ export default {
 
 	route: {
 		data ({ to }) {
+			if (!to.params.id) {
+				this.published = false
+				return Promise.resolve({})
+			}
 			return api.projects.get(auth.user.id, to.params.id)
+				.then(res => {
+					this.published = true
+					return res
+				})
 				.catch(err => console.error(err))
+		},
+		canActivate (transition) {
+			console.log()
+			return true
 		},
 		canDeactivate (transition) {
 			return true

@@ -72,10 +72,9 @@ router.beforeEach(t => {
 auth.check()
   .then(user => {
     router.start(App, 'app')
-    if (!user) router.go('/login')
   })
   .catch(err => {
-    console.log('Failed to connect to API')
+    console.error(err)
     router.start(App, 'app')
     router.go('/500')
   })

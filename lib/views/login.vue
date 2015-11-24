@@ -1,5 +1,5 @@
 <template>
-	<form class="login-form">
+	<form class="login-form" @submit.prevent="login">
 		<p class="login-form-error callout error" v-if="error.message">{{ error.message }}</p>
 		<input type="email" class="login-form-email" :class="{ 'error': validation.email.required }" placeholder="Email" v-model="email" v-validate="required" />
 		<input type="password" class="login-form-password" placeholder="Password" v-model="password" />

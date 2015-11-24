@@ -15,14 +15,18 @@
 	<section class="projects-list">
 		<header class="projects-list-header">
 			<span class="projects-list-title">Projects</span>
-			<a v-link="{ name: 'project:new' }" v-if="projects && projects.length < 8" class="button">New Project</a>
+			<a v-link="{ name: 'project:new' }" v-if="projects.length && projects.length < 8" class="button">New Project</a>
 		</header>
 		<div class="projects">
-			<div class="project-create-prompt" v-if="!projects">
-				<p>Add a project</p>
+			<div class="project-create-nux" v-if="!projects.length">
+				<p class="project-create-prompt">You don't have any projects uploaded yet.</p>
+				<a v-link="{ name: 'project:new' }" class="button">Add a Project</a>
 			</div>
 			<div class="project-preview" v-for="project in projects" v-if="projects">
-				<a class="project-preview-title" v-link="{ name: 'project', params: { id: project.id }}">{{ project.title }}</span>
+				<div class="project-preview-title">
+					<a v-link="{ name: 'project', params: { id: project.id }}">{{ project.title }}</a>
+					<span class="project-preview-badge" v-if="project.draft">Draft</span>
+				</div>
 				<a class="project-preview-slug" href="{{ domain }}/{{ project.title | slug }}">{{ domain }}/{{ project.title | slug }}</a>
 			</div>
 		</div>
