@@ -45,6 +45,13 @@ export default {
 		Thumbnail
 	},
 
+	props: {
+		project: {
+			type: String,
+			required: true
+		}
+	},
+
 	data () {
 		return {
 			errors: [],
@@ -109,6 +116,8 @@ export default {
 					return
 				}
 				this.files.push(file)
+				// console.log(this.project)
+				// api.assets.save(auth.user.id, this.project, )
 			})
 		}
 

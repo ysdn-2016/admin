@@ -1,3 +1,6 @@
+
+import './lib/helpers/polyfill'
+
 import Vue from 'vue'
 import Router from 'vue-router'
 import HTTP from 'vue-resource'
@@ -26,7 +29,7 @@ Vue.use(Validator)
 Vue.use(AsyncData)
 Vue.use(HTTP)
 
-// Vue.config.debug = true
+Vue.config.debug = true
 
 Vue.filter('slug', slug)
 Vue.filter('default', defaults)

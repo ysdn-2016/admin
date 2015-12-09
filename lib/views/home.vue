@@ -22,7 +22,7 @@
 				<p class="project-create-prompt">You don't have any projects uploaded yet.</p>
 				<a v-link="{ name: 'project:new' }" class="button">Add a Project</a>
 			</div>
-			<div class="project-preview" v-for="project in projects" v-if="projects">
+			<div class="project-preview" v-for="project in projects" v-if="!!projects.length">
 				<div class="project-preview-title">
 					<a v-link="{ name: 'project', params: { id: project.id }}">{{ project.title }}</a>
 					<span class="project-preview-badge" v-if="project.draft">Draft</span>

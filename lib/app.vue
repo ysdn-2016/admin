@@ -23,7 +23,6 @@ export default {
 	name: 'App',
 
 	data () {
-		console.log(auth.user)
 		return {
 			user: auth.user
 		}

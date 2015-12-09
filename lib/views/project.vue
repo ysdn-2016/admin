@@ -54,7 +54,7 @@
 		</div>
 		<div class="form-field project-assets-field">
 			<label class="form-field-label">Project Assets</label>
-			<dropzone :files="files" @insert="insertImage"></dropzone>
+			<dropzone :project="id" :files="files" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field project-tags-field">
 			<label for="category" class="form-field-label">Project Category</label>
@@ -99,6 +99,7 @@ export default {
 			owner_id: '',
 			draft: false,
 			files: [],
+			assets: [],
 			categories: [
 				'Interactive',
 				'Motion',
@@ -186,6 +187,11 @@ export default {
 		data ({ to }) {
 			if (!to.params.id) {
 				this.published = false
+				// api.projects.save({
+				// 	title: '',
+				// 	contents: '',
+				// 	draft: true
+				// })
 				return Promise.resolve({})
 			}
 			return api.projects.get(auth.user.id, to.params.id)
@@ -196,7 +202,6 @@ export default {
 				.catch(err => console.error(err))
 		},
 		canActivate (transition) {
-			console.log()
 			return true
 		},
 		canDeactivate (transition) {
