@@ -1,6 +1,6 @@
 <template>
 	<div class="dropzone-file">
-		<div class="dropzone-file-preview" style="background-image: url({{ url }});"
+		<div class="dropzone-file-preview" :style="{ 'background-image': 'url(' + url + ')' }"
 			@click.prevent="preview"></div>
 		<div class="dropzone-file-meta">
 			<span class="dropzone-file-name">{{ name }}</span>

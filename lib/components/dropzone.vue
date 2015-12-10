@@ -116,7 +116,6 @@ export default {
 					return
 				}
 				this.files.push(file)
-				// console.log(this.project)
 				// api.assets.save(auth.user.id, this.project, )
 			})
 		}

@@ -25,7 +25,6 @@ import auth from './lib/auth'
 
 
 Vue.use(Router)
-Vue.use(Validator)
 Vue.use(AsyncData)
 Vue.use(HTTP)
 

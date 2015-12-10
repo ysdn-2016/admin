@@ -40,7 +40,6 @@ import auth from '../auth'
 import config from '../config'
 
 export default {
-
 	name: 'HomeView',
 
 	data () {
@@ -57,7 +56,6 @@ export default {
 	},
 
 	route: {
-
 		canActivate () {
 			return auth.user.authenticated
 		},
@@ -68,6 +66,5 @@ export default {
 			}
 		}
 	}
-
 }
 </script>

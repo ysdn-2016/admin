@@ -24,6 +24,22 @@ textarea {
 	font-size: 13px;
 }
 
+select {
+	cursor: pointer;
+	display: block;
+	background: #fafafa url('assets/icon-dropdown.svg') no-repeat;
+	background-position: right 10px center;
+	width: 100%;
+	padding: 1rem;
+	border: none;
+	outline: none;
+	font-size: 14px;
+	font-family: inherit;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
 textarea {
 	line-height: 1.4;
 }
@@ -293,6 +309,11 @@ a.button.destructive {
  */
 
 .project-form {
+	transition: opacity 200ms ease;
+}
+
+.project-form.loading {
+	opacity: 0.0;
 }
 
 .project-form-header {
@@ -452,29 +473,51 @@ a.button.destructive {
 }
 
 .editor textarea {
+	border-top-left-radius: 0;
 	min-height: 150px;
 }
 
 .editor-action-bar {
 	display: flex;
-	padding: 1rem;
 	justify-content: space-between;
 }
 
-.editor-action {
-	cursor: pointer;
-	opacity: 0.5;
-	margin-right: 1rem;
-	font-size: 15px;
-	font-weight: bold;
+.editor-actions {
+	display: flex;
 }
 
-.editor-action:hover { opacity: 0.75; }
-.editor-action.active { opacity: 1.0; }
+.editor-action {
+	display: block;
+	cursor: pointer;
+	background: #fafafa;
+	padding: 1rem 2rem;
+	opacity: 0.25;
+	font-size: 15px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.editor-action:first-child {
+	border-top-left-radius: 4px;
+}
+
+.editor-action:last-child {
+	border-top-right-radius: 4px;
+}
+
+.editor-action:hover {
+	opacity: 0.5;
+}
+
+.editor-action.active {
+	opacity: 1.0;
+}
 
 .editor-help-markdown {
 	color: #999;
 	font-size: 11px;
+	padding: 1rem;
+	align-self: center;
 }
 
 .editor-help-markdown::before {
@@ -492,6 +535,9 @@ a.button.destructive {
 .editor-preview {
 	background: #fafafa;
 	padding: 1rem;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
 }
 
 @font-face {

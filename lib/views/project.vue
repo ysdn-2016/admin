@@ -1,11 +1,10 @@
 <template>
-	<form class="project-form" v-on:submit.prevent="save" v-show="loading">
+	<form class="project-form" v-on:submit.prevent="save" :class="{ 'loading': loading }">
 		<header class="project-form-header">
 			<div class="project-form-header-context">
 				<a v-link="{ name: 'home' }" class="button">{{ published  ? 'Back' : 'Cancel' }}</a>
 			</div>
 			<div class="project-form-header-actions">
-
 				<a @click.prevent="save" class="button primary" :class="{ 'disabled': !valid }">{{ saveButtonTitle }}</a>
 			</div>
 		</header>
@@ -13,54 +12,33 @@
 			<label><input v-model="draft" type="checkbox" /> Draft</label>
 			<p class="form-field-note">Save this as a draft and come back to it later so it doesn't get published.</p>
 		</div>
-		<div class="form-field project-title-field" :class="{ 'error': validation.title.valid }">
-			<label class="form-field-label"  for="title">Project Title</label>
-			<input type="text" id="title" placeholder="Project Title..."
-				v-model="title"
-				v-validate="required, minLength: 3, maxLength: 50" />
-			<div class="project-slug" v-if="validation.title.valid">
+		<div class="form-field project-title-field">
+			<label class="form-field-label"  for="title">Title</label>
+			<input type="text" id="title" placeholder="Project Title..." v-model="title" />
+			<div class="project-slug" v-if="title.length">
 				<a href="{{ url }}" target="_blank">
 					<span class="slug-domain">{{ domain }}/{{ user.name | slug }}/</span><!--
 				--><span class="slug-path">{{ title | slug }}</span>
 				</a>
 			</div>
-			<div v-if="showErrors">
-				<span class="project-form-error" v-if="validation.title.duplicate">Another project with this title already exists</span>
-				<span class="project-form-error" v-if="validation.title.required">Project title is required</span>
-				<span class="project-form-error" v-if="validation.title.minLength">Project title is too short</span>
-				<span class="project-form-error" v-if="validation.title.maxLength">Project title is too long</span>
-			</div>
-		</div>
-		<div class="form-field project-contents-field">
-			<label class="form-field-label">Project Contents</label>
-			<div class="editor">
-				<header class="editor-action-bar">
-					<div class="editor-actions">
-						<span @click.prevent="enableEditor" class="editor-action editor-markdown-action" :class="{ 'active': !previewing }">Write</span>
-						<span @click.prevent="enablePreview" class="editor-action editor-preview-action" :class="{ 'active': previewing }">Preview</span>
-					</div>
-					<a class="editor-help-markdown" href="https://guides.github.com/features/mastering-markdown/#what" target="_blank">Markdown is supported</a>
-				</header>
-				<textarea placeholder="Enter a description of this project"
-					 v-el="editor"
-					 v-model="contents"
-					 v-validate="required"
-					 v-show="!previewing">{{ contents }}</textarea>
-				<div class="editor-preview" v-show="previewing" v-html="contents | default 'Nothing to preview' | markdown"></div>
-				<div v-if="showErrors">
-					<span class="project-form-error" v-if="validation.contents.required">This can't be empty</span>
-				</div>
-			</div>
-		</div>
-		<div class="form-field project-assets-field">
-			<label class="form-field-label">Project Assets</label>
-			<dropzone :project="id" :files="files" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field project-tags-field">
 			<label for="category" class="form-field-label">Project Category</label>
 			<select id="category">
-				<option v-for="category in categories">{{ category }}</option>
+				<option disabled selected>Select a category</option>
+				<option disabled> </option>
+				<optgroup v-for="(name, group) in categories" :label="name">
+					<option v-for="category in group" :value="category.id">{{ category.label }}</option>
+				</optgroup>
 			</select>
+		</div>
+		<div class="form-field project-contents-field">
+			<label class="form-field-label">Contents</label>
+			<editor :content.sync="contents">
+		</div>
+		<div class="form-field project-assets-field">
+			<label class="form-field-label">Assets</label>
+			<dropzone :project="id" :files="files" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field form-advanced-actions" v-if="id">
 			<a @click.prevent="delete">Delete Project</a>
@@ -70,7 +48,7 @@
 
 <script>
 
-import autosize from 'autosize'
+import extend from 'extend'
 
 import api from '../api'
 import auth from '../auth'
@@ -80,6 +58,9 @@ import { router } from '../..'
 import slug from '../filters/slug'
 
 import Dropzone from '../components/dropzone.vue'
+import Editor from '../components/editor.vue'
+
+const error = err => alert(err.message)
 
 // TODO: on upload, maybe we can ping a Slack endpoint and trigger a deploy
 // through a Slackbot of some kind?
@@ -88,7 +69,8 @@ export default {
 	name: 'ProjectView',
 
 	components: {
-		Dropzone
+		Dropzone,
+		Editor
 	},
 
 	data () {
@@ -100,27 +82,10 @@ export default {
 			draft: false,
 			files: [],
 			assets: [],
-			categories: [
-				'Interactive',
-				'Motion',
-				'Packaging',
-				'Information',
-				'Branding',
-				'Editorial',
-				'Print'
-			],
+			categories: extend({}, config.content.categories),
 			loading: true,
-			previewing: false,
 			showErrors: false
 		}
-	},
-
-	ready () {
-		var editor = this.$els.editor
-		autosize(editor)
-		this.$watch('contents', (newValue, oldValue) => {
-			autosize.update(editor)
-		})
 	},
 
 	computed: {
@@ -156,9 +121,7 @@ export default {
 				draft: this.draft
 			}).then(res => {
 				router.go({ name: 'project', params: { id: res.id }})
-			}).catch(err => {
-				alert(err.message)
-			})
+			}).catch(error)
 		},
 		delete () {
 			if (!this.id) return
@@ -167,39 +130,25 @@ export default {
 				.then(res => {
 					router.go({ name: 'home' })
 				})
-				.catch(err => {
-					alert(err.message)
-				})
-		},
-		enableEditor () {
-			this.previewing = false
-		},
-		enablePreview () {
-			this.previewing = true
+				.catch(error)
 		},
 		insertImage (path) {
-			this.contents += `\n![](${path})`
-			this.$els.editor.focus()
+			this.contents += `\n![Alt text](${path})`
 		}
 	},
 
 	route: {
 		data ({ to }) {
 			if (!to.params.id) {
-				this.published = false
-				// api.projects.save({
-				// 	title: '',
-				// 	contents: '',
-				// 	draft: true
-				// })
-				return Promise.resolve({})
+				this.loading = false
+				return {}
 			}
 			return api.projects.get(auth.user.id, to.params.id)
 				.then(res => {
 					this.published = true
+					this.loading = false
 					return res
 				})
-				.catch(err => console.error(err))
 		},
 		canActivate (transition) {
 			return true
