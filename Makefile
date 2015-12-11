@@ -32,7 +32,7 @@ build-assets: build/favicon.png build/index.html build/assets
 watch: install
 	@$(BIN)/budo index.js:bundle.js \
 		--port $(PORT) \
-		--live -- -t vueify -t [ babelify --presets es2015 ] | $(BIN)/garnish
+		--live -- -t vueify -t [ babelify --presets es2015-loose ] | $(BIN)/garnish
 
 deploy: build
 	@echo "Deploying branch \033[0;33m$(BRANCH)\033[0m to Github pages..."
@@ -72,7 +72,7 @@ build/%: %
 
 build/bundle.js: $(SCRIPTS)
 	@mkdir -p build/
-	@$(BIN)/browserify index.js -t vueify -t [ babelify --presets es2015 ] -o $@
+	@$(BIN)/browserify index.js -t vueify -t [ babelify --presets es2015-loose ] -o $@
 	@if [[ "$(NODE_ENV)" == "production" ]]; then uglifyjs $@ -o $@; fi
 
 build/styles.css:
