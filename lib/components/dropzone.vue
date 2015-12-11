@@ -23,6 +23,9 @@
 
 <script>
 
+import api from '../api'
+import auth from '../auth'
+
 import Thumbnail from './thumbnail.vue'
 
 const prevent = e => e.preventDefault()
@@ -83,6 +86,8 @@ export default {
 		},
 
 		onDeleteFile (index) {
+			var file = this.files[index]
+			console.log(file)
 			this.files.splice(index, 1)
 		},
 
@@ -110,13 +115,13 @@ export default {
 				if (allowed.indexOf(mime) === -1) {
 					console.error(`File type ${mime} is not allowed`)
 					var name = file.name
-					var ext = file.name
+					var ext = mime.split('/')[1]
 					var message = `${name} wasn't uploaded because ${ext} files are not allowed.`
 					this.errors.push({ name, ext, mime, message })
 					return
 				}
 				this.files.push(file)
-				// api.assets.save(auth.user.id, this.project, )
+				api.assets.save(auth.user.id, this.project, file)
 			})
 		}
 

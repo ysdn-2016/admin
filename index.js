@@ -23,7 +23,6 @@ import firstname from './lib/filters/firstname'
 
 import auth from './lib/auth'
 
-
 Vue.use(Router)
 Vue.use(AsyncData)
 Vue.use(HTTP)

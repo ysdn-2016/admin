@@ -32,6 +32,10 @@ export default {
 
 	data () {
 		return {
+			id: '',
+			mime: '',
+			name: '',
+			path: '',
 			url: '',
 			width: -1,
 			height: -1,
