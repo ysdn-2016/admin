@@ -9,8 +9,8 @@
 			</div>
 		</header>
 		<div class="form-field project-draft-field">
-			<label><input v-model="draft" type="checkbox" /> Draft</label>
-			<p class="form-field-note">Save this as a draft and come back to it later so it doesn't get published.</p>
+			<label><input v-model="draft" type="checkbox" disabled /> Draft</label>
+			<p class="form-field-note">All posts are temporarily in draft mode until the site is live.</p>
 		</div>
 		<div class="form-field project-title-field">
 			<label class="form-field-label"  for="title">Title</label>
@@ -38,7 +38,7 @@
 		</div>
 		<div class="form-field project-assets-field">
 			<label class="form-field-label">Assets</label>
-			<dropzone :project="id" :files="files" @insert="insertImage"></dropzone>
+			<dropzone :project="id" :files="files" :assets="assets" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field form-advanced-actions" v-if="id">
 			<a @click.prevent="delete">Delete Project</a>
@@ -125,6 +125,7 @@ export default {
 				id: this.id,
 				title: this.title,
 				contents: this.contents,
+				category: this.category,
 				draft: this.draft,
 				assets: this.assets
 			}).then(res => {

@@ -1,7 +1,7 @@
 <template>
 
-	<p>Hey!</p>
-	<p>This section is coming soon. Hold your horses. 🐎🐎🐎</p>
+	<p>Hey! Hold your horses. 🐎 🐎 🐎</p>
+	<p>This section is coming soon.</p>
 
 	<div class="profile-social-links">
 		<!-- Uploaded CV -->

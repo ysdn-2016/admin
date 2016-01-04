@@ -1,8 +1,8 @@
 
 <template>
-	<section class="callout notice">
+	<!-- <section class="callout notice">
 		<p>Next website update is in 4 days, on <strong>Friday at 5pm.</strong><br/>Have any changes uploaded before then!</p>
-	</section>
+	</section> -->
 	<div class="profile-preview">
 		<div class="profile-preview-information">
 			<div class="profile-preview-name">{{ user.name }}</div>
@@ -27,7 +27,7 @@
 					<a v-link="{ name: 'project', params: { id: project.id }}">{{ project.title }}</a>
 					<span class="project-preview-badge" v-if="project.draft">Draft</span>
 				</div>
-				<a class="project-preview-slug" href="{{ domain }}/{{ project.title | slug }}">{{ domain }}/{{ project.title | slug }}</a>
+				<a class="project-preview-slug" href="{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}">{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}</a>
 			</div>
 		</div>
 	</section>

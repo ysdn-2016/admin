@@ -52,6 +52,10 @@ export default {
 		project: {
 			type: String,
 			required: true
+		},
+		assets: {
+			type: Array,
+			required: true
 		}
 	},
 
@@ -112,12 +116,18 @@ export default {
 		handleFiles (files) {
 			Array.from(files).forEach(file => {
 				var mime = file.type
+				if (mime == void 0) {
+					alert(`Unknown file type`)
+					return
+				}
 				if (allowed.indexOf(mime) === -1) {
-					console.error(`File type ${mime} is not allowed`)
 					var name = file.name
-					var ext = mime.split('/')[1]
-					var message = `${name} wasn't uploaded because ${ext} files are not allowed.`
-					this.errors.push({ name, ext, mime, message })
+					var ext = mime.length < 1 ? name.split('.').pop() : mime.split('/').pop()
+					if (ext === name) {
+						alert(`Unknown file type`)
+						return
+					}
+					alert(`File type ${ext} is not allowed`)
 					return
 				}
 				this.files.push(file)
