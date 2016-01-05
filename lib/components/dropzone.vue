@@ -4,18 +4,18 @@
 		@dragover.stop.prevent="dragOver"
 		@drop.stop.prevent="drop">
 		<input type="file" name="file" class="dropzone-file" multiple
-		  v-if="!files.length"
+		  v-if="!assets.length"
 			v-el:input
 			@change="onFileSelect" />
-		<div class="dropzone-help" v-if="!files.length">
+		<div class="dropzone-help" v-if="!assets.length">
 			<img src="/assets/icon-image.svg" class="dropzone-help-icon" />
 			<span class="dropzone-help-text">Drop images here</span>
 		</div>
-		<div class="dropzone-files" v-show="files.length">
+		<div class="dropzone-files" v-show="assets.length">
 			<thumbnail
-				v-for="(index, file) in files"
+				v-for="(index, asset) in assets"
+				:asset="asset"
 				:index="index"
-				@insert="onInsertContent"
 				@delete="onDeleteFile"></thumbnail>
 		</div>
 	</div>
@@ -49,7 +49,7 @@ export default {
 	},
 
 	props: {
-		project: {
+		project_id: {
 			type: String,
 			required: true
 		},
@@ -61,14 +61,8 @@ export default {
 
 	data () {
 		return {
-			errors: [],
-			files: []
-		}
-	},
-
-	computed: {
-		thumbnails: function () {
-
+			files: [],
+			errors: []
 		}
 	},
 
@@ -90,9 +84,14 @@ export default {
 		},
 
 		onDeleteFile (index) {
-			var file = this.files[index]
-			console.log(file)
-			this.files.splice(index, 1)
+			var asset = this.assets[index]
+			api.assets.destroy(auth.user.id, this.project_id, asset.id)
+				.then(() => {
+					this.assets.splice(index, 1)
+				})
+				.catch(err => {
+					console.log(err.stack)
+				})
 		},
 
 		onPreviewFile (url) {
@@ -130,8 +129,8 @@ export default {
 					alert(`File type ${ext} is not allowed`)
 					return
 				}
-				this.files.push(file)
-				api.assets.save(auth.user.id, this.project, file)
+				api.assets.save(auth.user.id, this.project_id, file)
+					.then(res => this.assets.push(res.asset))
 			})
 		}
 

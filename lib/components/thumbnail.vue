@@ -3,7 +3,7 @@
 		<div class="dropzone-file-preview" :style="{ 'background-image': 'url(' + url + ')' }"
 			@click.prevent="preview"></div>
 		<div class="dropzone-file-meta">
-			<span class="dropzone-file-name">{{ name }}</span>
+			<a :href="url" class="dropzone-file-name" target="_blank">{{ name }}</a>
 			<span class="dropzone-file-dimensions" v-if="loading">Loading...</span>
 			<span class="dropzone-file-dimensions" v-if="!loading">{{ width }}x{{ height }}</span>
 			<span class="dropzone-file-size" :class="sizeClass" v-if="!loading">{{ size | filesize }}</span>
@@ -17,6 +17,8 @@
 
 <script>
 
+import * as http from '../helpers/http'
+
 const MB = 1000000
 
 export default {
@@ -24,6 +26,10 @@ export default {
 	name: 'Thumbnail',
 
 	props: {
+		asset: {
+			type: Object,
+			required: true
+		},
 		index: {
 			type: Number,
 			required: true
@@ -32,33 +38,34 @@ export default {
 
 	data () {
 		return {
-			id: '',
-			mime: '',
-			name: '',
-			path: '',
-			url: '',
+			size: -1,
 			width: -1,
 			height: -1,
 			loading: true
 		}
 	},
 
+	/**
+	 * Get image width, height, and file size
+	 */
 	asyncData: function (resolve, reject) {
-		var reader = new FileReader()
-		reader.onloadend = e => {
-			var img = new Image()
-			img.onload = () => {
-				resolve({
-					url: reader.result,
-					width: img.width,
-					height: img.height,
-					loading: false
+		var img = new Image()
+		img.onload = () => {
+			let width = img.width
+			let height = img.height
+			http.head(this.asset.url)
+				.then(res => {
+					let size = parseInt(res.headers['content-length'], 10)
+					resolve({
+						width,
+						height,
+						size,
+						loading: false
+					})
 				})
-			}
-			img.src = reader.result
+				.catch(reject)
 		}
-		reader.onerror = err => reject(err)
-		reader.readAsDataURL(this.file)
+		img.src = this.asset.url
 	},
 
 	computed: {
@@ -66,10 +73,10 @@ export default {
 			return this.$parent.files[this.index]
 		},
 		name: function () {
-			return this.file.name
+			return this.asset.name
 		},
-		size: function () {
-			return this.file.size
+		url: function () {
+			return this.asset.url
 		},
 		sizeClass: function () {
 			if (this.size > (8 * MB)) return 'massive'

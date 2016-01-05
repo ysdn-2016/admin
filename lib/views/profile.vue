@@ -1,6 +1,6 @@
 <template>
 
-	<p>Hey! Hold your horses. 🐎 🐎 🐎</p>
+	<p>Hold your horses. 🐎 🐎 🐎</p>
 	<p>This section is coming soon.</p>
 
 	<div class="profile-social-links">

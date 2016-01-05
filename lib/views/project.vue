@@ -33,12 +33,12 @@
 			</select>
 		</div>
 		<div class="form-field project-contents-field">
-			<label class="form-field-label">Contents</label>
+			<label class="form-field-label">Description</label>
 			<editor :content.sync="contents">
 		</div>
 		<div class="form-field project-assets-field">
 			<label class="form-field-label">Assets</label>
-			<dropzone :project="id" :files="files" :assets="assets" @insert="insertImage"></dropzone>
+			<dropzone :project_id="id" :files="files" :assets="assets" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field form-advanced-actions" v-if="id">
 			<a @click.prevent="delete">Delete Project</a>
@@ -158,7 +158,6 @@ export default {
 				.then(res => {
 					this.published = true
 					this.loading = false
-					console.log(res.assets)
 					return res
 				})
 		},

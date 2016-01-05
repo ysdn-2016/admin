@@ -8,12 +8,15 @@ import Validator from 'vue-validator'
 import AsyncData from 'vue-async-data'
 
 import App from './lib/app.vue'
-import HomeView from './lib/views/home.vue'
-import LoginView from './lib/views/login.vue'
-import ProjectView from './lib/views/project.vue'
-import ProfileView from './lib/views/profile.vue'
-import NotFoundView from './lib/views/not-found.vue'
-import ErrorView from './lib/views/error.vue'
+import {
+  FAQView,
+  LoginView,
+  HomeView,
+  ProjectView,
+  ProfileView,
+  NotFoundView,
+  ErrorView
+} from './lib/views'
 
 import slug from './lib/filters/slug'
 import defaults from './lib/filters/default'
@@ -50,6 +53,7 @@ const privateRoutes = [
 router.map({
 	'/': { name: 'home', component: HomeView },
   '/500': { name: 'error', component: ErrorView },
+  '/faq': { name: 'faq', component: FAQView },
 	'/login': { name: 'login', component: LoginView },
 	'/project/new': { name: 'project:new', component: ProjectView },
 	'/project/:id': { name: 'project', component: ProjectView },

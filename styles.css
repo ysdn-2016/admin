@@ -84,33 +84,6 @@ a.button.destructive {
 	color: #f58866;
 }
 
-
-.header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 2rem auto 3rem;
-	max-width: 40rem;
-}
-
-.header-title {
-	font-weight: bold;
-}
-
-.header-user {
-	color: #aaa;
-	font-size: 12px;
-	font-weight: normal;
-	vertical-align: middle;
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-.header-logout {
-	cursor: pointer;
-	margin-left: 1rem;
-}
-
 .main {
 	margin: 0 auto;
 	max-width: 40rem;
@@ -456,11 +429,6 @@ a.button.destructive {
 
 .dropzone-action-delete {
 
-}
-
-.dropzone-action-delete::before {
-	background: transparent url('assets/icon-delete.svg') no-repeat;
-	background-size: cover;
 }
 
 .dropzone-action-delete:hover {
