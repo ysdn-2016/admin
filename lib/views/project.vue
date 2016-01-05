@@ -32,13 +32,13 @@
 				</optgroup>
 			</select>
 		</div>
-		<div class="form-field project-contents-field">
-			<label class="form-field-label">Description</label>
-			<editor :content.sync="contents">
-		</div>
 		<div class="form-field project-assets-field">
 			<label class="form-field-label">Assets</label>
 			<dropzone :project_id="id" :files="files" :assets="assets" @insert="insertImage"></dropzone>
+		</div>
+		<div class="form-field project-contents-field">
+			<label class="form-field-label">Description</label>
+			<editor :content.sync="contents">
 		</div>
 		<div class="form-field form-advanced-actions" v-if="id">
 			<a @click.prevent="delete">Delete Project</a>
@@ -121,6 +121,7 @@ export default {
 
 	methods: {
 		save () {
+			if (!valid) return
 			api.projects.save(auth.user.id, {
 				id: this.id,
 				title: this.title,
