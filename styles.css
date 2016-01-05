@@ -219,7 +219,7 @@ a.button.destructive {
 
 .profile-preview {
 	border: 1px #f2f2f2 solid;
-	border-radius: 2px;
+	border-radius: 4px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -245,7 +245,7 @@ a.button.destructive {
 
 .project-preview {
 	border: 1px #f2f2f2 solid;
-	border-radius: 2px;
+	border-radius: 4px;
 	display: block;
 	margin: 0 0 1rem;
 	padding: 1rem;
@@ -273,7 +273,7 @@ a.button.destructive {
 
 .project-create-nux {
 	border: 1px #f2f2f2 solid;
-	border-radius: 2px;
+	border-radius: 4px;
 	display: block;
 	padding: 2rem;
 	text-align: center;
