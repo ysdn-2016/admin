@@ -46,7 +46,7 @@ deploy: build
 		git push "git@github.com:$(REPO).git" HEAD:gh-pages --force && \
 		echo "\033[0m")
 	@make clean
-	@echo "Deployed to \033[0;32mhttp://ysdn-2016.github.io/admin/\033[0m"
+	@echo "Deployed to \033[0;32mhttp://ysdn2016.com/admin/\033[0m"
 
 clean:
 	@rm -rf build

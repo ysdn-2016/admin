@@ -1,22 +1,23 @@
 <template>
-	<div class="dropzone"
+	<div class="dropzone" :class="{ 'hasFiles': assets.length }"
 		@dragenter.stop.prevent
 		@dragover.stop.prevent="dragOver"
 		@drop.stop.prevent="drop">
-		<input type="file" name="file" class="dropzone-file" multiple
-		  v-if="!assets.length"
-			v-el:input
-			@change="onFileSelect" />
-		<div class="dropzone-help" v-if="!assets.length">
-			<img src="assets/icon-image.svg" class="dropzone-help-icon" />
-			<span class="dropzone-help-text">Drop images here</span>
-		</div>
 		<div class="dropzone-files" v-show="assets.length">
 			<thumbnail
 				v-for="(index, asset) in assets"
 				:asset="asset"
 				:index="index"
 				@delete="onDeleteFile"></thumbnail>
+		</div>
+		<div class="dropzone-prompt">
+			<div class="dropzone-help">
+				<img src="assets/icon-image.svg" class="dropzone-help-icon" />
+				<span class="dropzone-help-text">Drop images here</span>
+			</div>
+			<input type="file" name="file" class="dropzone-file" multiple
+				v-el:input
+				@change="onFileSelect" />
 		</div>
 	</div>
 </template>
@@ -86,12 +87,8 @@ export default {
 		onDeleteFile (index) {
 			var asset = this.assets[index]
 			api.assets.destroy(auth.user.id, this.project_id, asset.id)
-				.then(() => {
-					this.assets.splice(index, 1)
-				})
-				.catch(err => {
-					console.log(err.stack)
-				})
+				.then(() => this.assets.splice(index, 1))
+				.catch(err => console.log(err.stack))
 		},
 
 		onPreviewFile (url) {

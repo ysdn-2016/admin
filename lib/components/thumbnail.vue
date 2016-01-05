@@ -1,15 +1,17 @@
 <template>
 	<div class="dropzone-file">
-		<div class="dropzone-file-preview" :style="{ 'background-image': 'url(' + url + ')' }"
-			@click.prevent="preview"></div>
+		<a class="dropzone-file-preview" target="_blank"
+			:href="url"
+			:style="{ 'background-image': 'url(' + url + ')' }"></a>
 		<div class="dropzone-file-meta">
-			<a :href="url" class="dropzone-file-name" target="_blank">{{ name }}</a>
+			<span class="dropzone-file-name">{{ name }}</span>
 			<span class="dropzone-file-dimensions" v-if="loading">Loading...</span>
 			<span class="dropzone-file-dimensions" v-if="!loading">{{ width }}x{{ height }}</span>
 			<span class="dropzone-file-size" :class="sizeClass" v-if="!loading">{{ size | filesize }}</span>
 		</div>
 		<div class="dropzone-file-actions">
 			<!-- <a href="#" class="dropzone-action dropzone-action-insert" @click.prevent="insert">Insert</a> -->
+			<a :href="url" class="dropzone-action dropzone-action-view" target="_blank">View</a>
 			<a href="#" class="dropzone-action dropzone-action-delete" @click.prevent="delete">Delete</a>
 		</div>
 	</div>

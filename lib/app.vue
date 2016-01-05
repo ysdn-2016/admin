@@ -5,7 +5,8 @@
 	<header class="header">
 		<a class="header-title" v-link="{ name: 'home' }">YSDN 2016 Admin</a>
 		<div class="header-actions">
-			<a class="header-faq" @click="faq">FAQ</a>
+			<a class="header-home" v-link="{ name: 'home' }">Home</a>
+			<a class="header-faq" v-link="{ name: 'faq' }">FAQ</a>
 			<a class="header-login" @click="login" v-if="!user.authenticated">Log In</a>
 			<div class="header-user" v-if="user.authenticated">
 				<span class="header-user-name">{{ user.name | firstname }}</span>
@@ -36,9 +37,6 @@ export default {
 	methods: {
 		login () {
 			router.go({ name: 'login' })
-		},
-		faq () {
-			router.go({ name: 'faq' })
 		},
 		logout () {
 			auth.logout()
