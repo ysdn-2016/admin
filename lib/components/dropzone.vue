@@ -8,7 +8,7 @@
 			v-el:input
 			@change="onFileSelect" />
 		<div class="dropzone-help" v-if="!assets.length">
-			<img src="/assets/icon-image.svg" class="dropzone-help-icon" />
+			<img src="assets/icon-image.svg" class="dropzone-help-icon" />
 			<span class="dropzone-help-text">Drop images here</span>
 		</div>
 		<div class="dropzone-files" v-show="assets.length">

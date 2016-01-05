@@ -1,6 +1,6 @@
 <template>
 
-	<p>Hold your horses. 🐎 🐎 🐎</p>
+	<p>Hold your horses. {{ user.email === 'michelle.hm.lee@gmail.com' ? '🍗🍗🍗' : '🐎 🐎 🐎' }}</p>
 	<p>This section is coming soon.</p>
 
 	<div class="profile-social-links">
