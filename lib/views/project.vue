@@ -33,14 +33,17 @@
 			</select>
 		</div>
 		<div class="form-field project-assets-field">
-			<label class="form-field-label">Assets</label>
-			<dropzone :project_id="id" :files="files" :assets="assets" @insert="insertImage"></dropzone>
+			<header class="form-field-header">
+				<label class="form-field-label">Assets</label>
+				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">Upload Requirements</a>
+			</header>
+			<dropzone :project_id="id" :files="files" :assets="assets"></dropzone>
 		</div>
 		<div class="form-field project-contents-field">
 			<label class="form-field-label">Description</label>
 			<editor :content.sync="contents">
 		</div>
-		<div class="form-field form-advanced-actions" v-if="id">
+		<div class="form-field form-advanced-actions" v-if="published">
 			<a @click.prevent="delete">Delete Project</a>
 		</div>
 	</form>
@@ -53,7 +56,7 @@ import extend from 'extend'
 import api from '../api'
 import auth from '../auth'
 import config from '../config'
-import { router } from '../..'
+import router from '../router'
 
 import slug from '../filters/slug'
 
@@ -121,7 +124,7 @@ export default {
 
 	methods: {
 		save () {
-			if (!valid) return
+			if (!this.valid) return
 			api.projects.save(auth.user.id, {
 				id: this.id,
 				title: this.title,
@@ -130,8 +133,7 @@ export default {
 				draft: this.draft,
 				assets: this.assets
 			}).then(res => {
-				console.log(res)
-				router.go({ name: 'project', params: { id: res.id }})
+				router.go({ name: 'home' })
 			}).catch(error)
 		},
 		delete () {
@@ -140,9 +142,6 @@ export default {
 			api.projects.destroy(auth.user.id, this.id).then(res => {
 				router.go({ name: 'home' })
 			}).catch(error)
-		},
-		insertImage (path) {
-			this.contents += `\n![Alt text](${path})`
 		}
 	},
 

@@ -1,85 +1,22 @@
 
 import './lib/helpers/polyfill'
 
-import Vue from 'vue'
-import Router from 'vue-router'
-import HTTP from 'vue-resource'
-import Validator from 'vue-validator'
-import AsyncData from 'vue-async-data'
+import Vue from './lib/vue'
+import config from './lib/config'
+import auth from './lib/auth'
+import router from './lib/router'
 
 import App from './lib/app.vue'
-import {
-  FAQView,
-  LoginView,
-  HomeView,
-  ProjectView,
-  ProfileView,
-  NotFoundView,
-  ErrorView
-} from './lib/views'
 
-import slug from './lib/filters/slug'
-import defaults from './lib/filters/default'
-import markdown from './lib/filters/markdown'
-import filesize from './lib/filters/filesize'
-import firstname from './lib/filters/firstname'
-
-import auth from './lib/auth'
-
-Vue.use(Router)
-Vue.use(AsyncData)
-Vue.use(HTTP)
-
-Vue.config.debug = true
-
-Vue.filter('slug', slug)
-Vue.filter('default', defaults)
-Vue.filter('markdown', markdown)
-Vue.filter('filesize', filesize)
-Vue.filter('firstname', firstname)
-
-export const router = new Router({
-	// history: true,
-  saveScrollPosition: true
-})
-
-const privateRoutes = [
-  '/project/new',
-  '/project/:id',
-  '/profile',
-  '/'
-]
-
-router.map({
-	'/': { name: 'home', component: HomeView },
-  '/500': { name: 'error', component: ErrorView },
-  '/faq': { name: 'faq', component: FAQView },
-	'/login': { name: 'login', component: LoginView },
-	'/project/new': { name: 'project:new', component: ProjectView },
-	'/project/:id': { name: 'project', component: ProjectView },
-	'/profile': { name: 'profile', component: ProfileView },
-	'*': { component: NotFoundView }
-})
-
-router.beforeEach(t => {
-  if (auth.user.authenticated) {
-    if (t.to.path === '/login') {
-      return t.redirect('/')
-    }
-    return t.next()
-  }
-  if (privateRoutes.indexOf(t.to.path) !== -1) {
-    return t.redirect('/login')
-  }
-  t.next()
-})
+function init (err) {
+	router.start(App, 'app')
+	if (err) {
+    console.log(err)
+    Raven.captureException(err)
+		router.go({ name: 'error' })
+	}
+}
 
 auth.check()
-  .then(user => {
-    router.start(App, 'app')
-  })
-  .catch(err => {
-    console.error(err)
-    router.start(App, 'app')
-    router.go('/500')
-  })
+	.then(init)
+	.catch(init)

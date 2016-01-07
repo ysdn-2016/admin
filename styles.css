@@ -29,6 +29,7 @@ select {
 	background-position: right 10px center;
 	border: none;
 	border-radius: 4px;
+  appearance: none;
 	outline: none;
 	display: block;
 	padding: 1rem;
@@ -38,7 +39,6 @@ select {
 	cursor: pointer;
 	-webkit-appearance: none;
 	   -moz-appearance: none;
-		      appearance: none;
 }
 
 textarea {
@@ -67,12 +67,18 @@ a.button {
 	cursor: pointer;
 	transition: color 200ms ease,
 	background 200ms ease;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 }
 
 a.button.primary {
 	background: #58d18c;
 	padding-right: 1.2rem;
 	padding-left: 1.2rem;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 }
 
 a.button.primary.disabled {
@@ -313,6 +319,17 @@ a.button.destructive {
 	margin-bottom: 2rem;
 }
 
+.form-field-header {
+	margin: 2.5rem 0 0.5rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.form-field-help-text {
+	color: #999;
+	font-size: 11px;
+}
+
 .project-form-error {
 	background: #f65c4d;
 	position: absolute;
@@ -353,17 +370,17 @@ a.button.destructive {
 }
 
 
-.dropzone.hasFiles .dropzone-prompt {
+.dropzone--has-files .dropzone-prompt {
 	border-color: #f2f2f2;
 	padding: 1.5rem 2rem;
 	font-size: 10px;
 }
 
-.dropzone.hasFiles .dropzone-help {
+.dropzone--has-files .dropzone-help {
 	opacity: 0.75;
 }
 
-.dropzone.hasFiles .dropzone-help-icon {
+.dropzone--has-files .dropzone-help-icon {
 	max-width: 36px;
 }
 
@@ -493,8 +510,8 @@ a.button.destructive {
 
 .editor textarea {
 	border-top-left-radius: 0;
-	min-height: 150px;
 	margin: 0;
+	min-height: 150px;
 }
 
 .editor-action-bar {
@@ -558,29 +575,34 @@ a.button.destructive {
 	border-top-right-radius: 4px;
 	border-bottom-left-radius: 4px;
 	border-bottom-right-radius: 4px;
-	padding: 1rem;
+	padding: 0.5rem 1.5rem;
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.editor-preview a {
+	color: #5ac2b4;
+	border-bottom: 1px currentColor solid;
+}
+
+.editor-preview blockquote {
+	margin: 1em 0;
+	padding: 0 0 0 0.75em;
+	border-left: 3px rgba(0, 0, 0, 0.1) solid;
 }
 
 @font-face {
-	font-family: "Proxima Nova";
+  font-family: 'Proxima Nova';
 	font-weight: normal;
 	font-style: normal;
-
-	src: local("ProximaNova-Regular");
+  src: url('assets/fonts/ProximaNova-Regular.woff') format('woff'),
+       url('assets/fonts/ProximaNova-Regular.ttf') format('truetype');
 }
 
 @font-face {
-	font-family: "Proxima Nova";
+  font-family: 'Proxima Nova';
 	font-weight: bold;
 	font-style: normal;
-
-	src: local("ProximaNova-Semibold");
-}
-
-@font-face {
-	font-family: "Proxima Nova";
-	font-weight: 800;
-	font-style: normal;
-
-	src: local("ProximaNova-Bold");
+  src: url('assets/fonts/ProximaNova-Semibold.woff') format('woff'),
+       url('assets/fonts/ProximaNova-Semibold.ttf') format('truetype');
 }

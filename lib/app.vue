@@ -22,7 +22,7 @@
 <script>
 
 import auth from './auth'
-import { router } from '..'
+import router from './router'
 
 export default {
 

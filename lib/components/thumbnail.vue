@@ -65,7 +65,14 @@ export default {
 						loading: false
 					})
 				})
-				.catch(reject)
+				.catch(err => {
+					resolve({
+						width,
+						height,
+						size: 0,
+						loading: false
+					})
+				})
 		}
 		img.src = this.asset.url
 	},
@@ -81,9 +88,9 @@ export default {
 			return this.asset.url
 		},
 		sizeClass: function () {
-			if (this.size > (8 * MB)) return 'massive'
-			if (this.size > (3 * MB)) return 'large'
-			if (this.size > (1 * MB)) return 'medium'
+			if (this.size > (0.9 * MB)) return 'massive'
+			if (this.size > (0.6 * MB)) return 'large'
+			if (this.size > (0.4 * MB)) return 'medium'
 			return ''
 		}
 	},

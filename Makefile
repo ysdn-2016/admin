@@ -13,6 +13,8 @@ PORT     ?= 8080
 
 SCRIPTS   = $(shell find . -type f -name '*.js' -not -path "*build*")
 
+BROWSERIFY_ARGS = -t vueify -t [ babelify --presets es2015-loose ] -t envify
+
 DOMAIN    = ysdn-admin.surge.sh
 REPO      = ysdn-2016/admin
 BRANCH    = $(shell git rev-parse --abbrev-ref HEAD)
@@ -26,18 +28,20 @@ build: install build-js build-css build-assets
 build-js: build/bundle.js
 build-css: build/styles.css
 build-assets: build/favicon.png build/index.html build/assets
-	@cp build/index.html build/200.html
-
+	@cp build/index.html build/404.html
 
 watch: install
 	@$(BIN)/budo index.js:bundle.js \
 		--port $(PORT) \
-		--live -- -t vueify -t [ babelify --presets es2015-loose ] | $(BIN)/garnish
+		--live \
+		--css styles.css \
+		--pushstate -- $(BROWSERIFY_ARGS)
 
-deploy: build
-	@echo "Deploying branch \033[0;33m$(BRANCH)\033[0m to Github pages..."
+deploy:
+	@echo "Building site for \033[0;33mproduction\033[0m environment..."
 	@make clean
 	@NODE_ENV=production make build
+	@echo "Deploying branch \033[0;33m$(BRANCH)\033[0m to Github pages..."
 	@(cd build && \
 		git init -q . && \
 		git add . && \
@@ -47,6 +51,11 @@ deploy: build
 		echo "\033[0m")
 	@make clean
 	@echo "Deployed to \033[0;32mhttp://ysdn2016.com/admin/\033[0m"
+
+lint:
+	@xo
+
+test: lint
 
 clean:
 	@rm -rf build
@@ -70,10 +79,15 @@ build/%: %
 	@mkdir -p $(@D)
 	@cp -r $< $@
 
+build/index.html: index.html
+	@sed \
+		-e "s/\/bundle.js/\/admin\/bundle.js?`date +%s`/" \
+		-e "s/\/styles.css/\/admin\/styles.css?`date +%s`/" $< > $@
+
 build/bundle.js: $(SCRIPTS)
 	@mkdir -p build/
-	@$(BIN)/browserify index.js -t vueify -t [ babelify --presets es2015-loose ] -o $@
-	@if [[ "$(NODE_ENV)" == "production" ]]; then uglifyjs $@ -o $@; fi
+	@$(BIN)/browserify index.js $(BROWSERIFY_ARGS) -o $@
+	@if [[ "$(NODE_ENV)" == "production" ]]; then $(BIN)/uglifyjs $@ -o $@; fi
 
 build/styles.css:
 	@mkdir -p build/

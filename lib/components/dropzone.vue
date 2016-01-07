@@ -1,5 +1,5 @@
 <template>
-	<div class="dropzone" :class="{ 'hasFiles': assets.length }"
+	<div class="dropzone" :class="{ 'dropzone--has-files': assets.length }"
 		@dragenter.stop.prevent
 		@dragover.stop.prevent="dragOver"
 		@drop.stop.prevent="drop">
@@ -12,7 +12,7 @@
 		</div>
 		<div class="dropzone-prompt">
 			<div class="dropzone-help">
-				<img src="assets/icon-image.svg" class="dropzone-help-icon" />
+				<img :src="imageIconSrc" class="dropzone-help-icon" />
 				<span class="dropzone-help-text">Drop images here</span>
 			</div>
 			<input type="file" name="file" class="dropzone-file" multiple
@@ -26,6 +26,7 @@
 
 import api from '../api'
 import auth from '../auth'
+import config from '../config'
 
 import Thumbnail from './thumbnail.vue'
 
@@ -35,10 +36,7 @@ const allowed = [
 	'image/gif',
 	'image/jpg',
 	'image/jpeg',
-	'image/webp',
-	'video/mp4',
-	'video/ogv',
-	'video/webm'
+	'image/webp'
 ]
 
 export default {
@@ -67,6 +65,15 @@ export default {
 		}
 	},
 
+	computed: {
+		root () {
+			return config.app.root
+		},
+		imageIconSrc () {
+			return `${this.root}/assets/icon-image.svg`
+		}
+	},
+
 	ready () {
 		window.addEventListener('dragover', prevent)
 		window.addEventListener('drop', prevent)
@@ -88,7 +95,7 @@ export default {
 			var asset = this.assets[index]
 			api.assets.destroy(auth.user.id, this.project_id, asset.id)
 				.then(() => this.assets.splice(index, 1))
-				.catch(err => console.log(err.stack))
+				.catch(error('There was an error deleting the last image. Try again later, or contact Ross for help.'))
 		},
 
 		onPreviewFile (url) {
@@ -126,13 +133,59 @@ export default {
 					alert(`File type ${ext} is not allowed`)
 					return
 				}
-				api.assets.save(auth.user.id, this.project_id, file)
-					.then(res => this.assets.push(res.asset))
+				if (file.size > config.api.maxFileSize) {
+					alert(`We can't accept files that are larger than 1MB. Look at the FAQ if you need help reducing the size of your images.`)
+					return
+				}
+				getImageDimensionsFromFile(file)
+					.catch(error('There was an error. Mind pinging Ross on Facebook. Tell him: the call to getImageDimensionsFromFile in dropzone.vue failed.'))
+					.then(dimensions => validateDimensions(dimensions)
+							.then(() => api.assets.save(auth.user.id, this.project_id, file)
+								.then(res => this.assets.push(res.asset)))
+							.catch(err => {
+								console.log(err)
+								error('There was an error saving this image. Try again later, or contact Ross for help.')
+							}))
+					.catch(error('Your image is not large enough. Images need a minumum width of 800px'))
 			})
 		}
 
 	}
 
+}
+
+function error (message) {
+	return () => {
+		alert(message)
+		return
+	}
+}
+
+function validateDimensions (dimensions) {
+	if (dimensions.width < config.api.minImageDimensions) {
+		throw new Error('Image not wide enough')
+	}
+	return Promise.resolve(true)
+}
+
+function getImageDimensionsFromFile (file) {
+	var reader = new FileReader()
+	var image = new Image()
+	return new Promise((resolve, reject) => {
+		reader.onload = function (event) {
+			image.onload = function () {
+				resolve({
+					width: image.width,
+					height: image.height
+				})
+			}
+			image.onerror = function () {
+				reject('Invalid file type')
+			}
+			image.src = event.target.result
+		}
+		reader.readAsDataURL(file)
+	})
 }
 
 </script>

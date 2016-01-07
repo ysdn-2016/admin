@@ -10,8 +10,7 @@
 		<textarea placeholder="Enter a description of this project"
 			 v-el:editor
 			 v-model="content"
-			 v-show="!previewing"
-			 @input="update">{{ contents }}</textarea>
+			 v-show="!previewing">{{ contents }}</textarea>
 		<div class="editor-preview" v-show="previewing" v-html="content | default 'Nothing to preview' | markdown"></div>
 	</div>
 </template>
@@ -41,8 +40,12 @@ export default {
 		autosize(this.$els.editor)
 	},
 
+	watch: {
+		content: 'update'
+	},
+
 	methods: {
-		update (e) {
+		update () {
 			autosize.update(this.$els.editor)
 		},
 		enableEditor () {
