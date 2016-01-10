@@ -113,7 +113,7 @@ export default {
 	data () {
 		return {
 			id: '',
-			type: ProjectTypes.CASE_STUDY,
+			type: ProjectTypes.STANDARD,
 			title: '',
 			contents: '',
 			owner_id: '',
