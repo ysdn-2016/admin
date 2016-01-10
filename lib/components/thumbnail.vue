@@ -10,8 +10,8 @@
 			<span class="dropzone-file-size" :class="sizeClass" v-if="!loading">{{ size | filesize }}</span>
 		</div>
 		<div class="dropzone-file-actions">
+			<a href="#" class="dropzone-action dropzone-action-insert" v-if="showInsertButton === true" @click.prevent="insert">Add to Description</a>
 			<a :href="url" class="dropzone-action dropzone-action-view" target="_blank">View</a>
-			<a href="#" class="dropzone-action dropzone-action-insert" v-if="showInsertButton === true" @click.prevent="insert">Insert</a>
 			<a href="#" class="dropzone-action dropzone-action-delete" @click.prevent="delete">Delete</a>
 		</div>
 	</div>

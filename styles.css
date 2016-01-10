@@ -593,7 +593,6 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 }
 
 .dropzone-action-insert {
-	margin-right: 2rem;
 }
 
 .dropzone-action-delete {
