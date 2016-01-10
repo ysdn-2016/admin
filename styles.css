@@ -383,7 +383,7 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 .option-project-type {
 	border: 1px #efefef solid;
 	border-radius: 4px;
-	flex: 1 0 auto;
+	flex: 1 0 50%;
 	padding: 0.75rem 1rem;
 	font-size: 13px;
 	line-height: 1.35;
@@ -397,12 +397,28 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 
 .option-project-type--selected {
 	background: #fafafa;
-	border: 1px #f2f2f2 solid;
+	border: 1px #eaeaea solid;
 	opacity: 1.0;
 }
 
-.option-project-type + .option-project-type {
-	margin-left: 1rem;
+.option-project-type:first-child {
+	border-right-color: transparent;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.option-project-type:last-child {
+	border-left-color: transparent;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.option-project-type--selected:first-child {
+	border-right: 1px #eaeaea solid;
+}
+
+.option-project-type--selected:last-child {
+	border-left: 1px #eaeaea solid;
 }
 
 .option-project-type-title {

@@ -8,15 +8,14 @@
 				<a @click.prevent="save" class="button primary" :class="{ 'disabled': !valid }">{{ saveButtonTitle }}</a>
 			</div>
 		</header>
-		<!-- <div class="form-field project-draft-field">
-			<label><input v-model="draft" type="checkbox" disabled /> Draft</label>
+		<div class="form-field project-draft-field">
 			<label class="project-draft-checkbox">
 				<input type="checkbox" disabled checked />
 				<span class="project-draft-checkbox-box"></span>
 				Draft
 			</label>
 			<p class="form-field-note">All posts are temporarily locked in draft mode until the site is live.</p>
-		</div> -->
+		</div>
 		<div class="form-field project-type-field">
 			<header class="form-field-header">
 				<label class="form-field-label">Project Type</label>
