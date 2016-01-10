@@ -68,6 +68,9 @@
         2,
         "multi-line"
       ],
+      "key-spacing": [
+        0
+      ],
       "space-before-function-paren": [
         2,
         "always"

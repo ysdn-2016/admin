@@ -37,7 +37,7 @@ watch: install
 		--css styles.css \
 		--pushstate -- $(BROWSERIFY_ARGS)
 
-deploy:
+deploy: test
 	@echo "Building site for \033[0;33mproduction\033[0m environment..."
 	@make clean
 	@NODE_ENV=production make build
