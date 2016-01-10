@@ -18,7 +18,7 @@
 		<div id="whats-the-difference-between-project-types" class="question">
 			<h3>What's the difference between a standard project and a case study?</h3>
 			<p>A standard project is a set of images showing your work, coupled with a brief description. Case studies on the other hand are in-depth reviews of your work.</p>
-			<p>Beyond the semantic importance, the two types of projects will look differently on the site. Case studies will be long scrolling pages, akin to <a href="www.bigspaceship.com/case-study/past-present/">pages like this</a>, where as standard projects will be a slideshow or short gallery display. (This is still being finalized, we'll share details when we can.)</p>
+			<p>Beyond the semantic importance, the two types of projects will look differently on the site. Case studies will be long scrolling pages, akin to <a href="http://www.bigspaceship.com/case-study/past-present/">pages like this</a>, where as standard projects will be a slideshow or short gallery display. (This is still being finalized, we'll share details when we can.)</p>
 		</div>
 		<div id="what-kinds-of-files-can-i-upload" class="question">
 			<h3>What kinds of files can I upload?</h3>
