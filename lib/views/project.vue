@@ -18,6 +18,10 @@
 			<p class="form-field-note">All posts are temporarily locked in draft mode until the site is live.</p>
 		</div> -->
 		<div class="form-field project-type-field">
+			<header class="form-field-header">
+				<label class="form-field-label">Project Type</label>
+				<a class="form-field-help-text" v-link="{ path: '/faq#whats-the-difference-between-project-types' }" target="_blank">What's the difference?</a>
+			</header>
 			<div class="option-project-type-list">
 				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.STANDARD }" @click.prevent="setProjectTypeStandard">
 					<div class="option-project-type-title">Standard Project</div>
@@ -150,8 +154,9 @@ export default {
 			return !this.temporary
 		},
 		saveButtonTitle () {
-			if (this.draft) return 'Save as a draft'
-			if (!this.id) return 'Publish'
+			// if (this.draft) return 'Save as a draft'
+			// if (!this.id) return 'Publish'
+			// return 'Save'
 			return 'Save'
 		}
 	},

@@ -11,9 +11,14 @@
 			<h3>How do I use this thing?</h3>
 			<p>We've put together <a href="http://ysdn-gradshow.s3.amazonaws.com/screengrabs/guide.mp4">a little screencast</a> to walk you through the process of uploading a project.</p>
 		</div>
-		<div id="how-many-" class="question">
+		<div id="how-many-projects-do-i-need" class="question">
 			<h3>How many projects do I need to upload?</h3>
 			<p>We're asking that all students submit <em>at least</em> three projects. One of these three projects should be a case study. The other two may be regular projects or case studies—the choice is yours.</p>
+		</div>
+		<div id="whats-the-difference-between-project-types" class="question">
+			<h3>What's the difference between a standard project and a case study?</h3>
+			<p>A standard project is a set of images showing your work, coupled with a brief description. Case studies on the other hand are in-depth reviews of your work.</p>
+			<p>Beyond the semantic importance, the two types of projects will look differently on the site. Case studies will be long scrolling pages, akin to <a href="www.bigspaceship.com/case-study/past-present/">pages like this</a>, where as standard projects will be a slideshow or short gallery display. (This is still being finalized, we'll share details when we can.)</p>
 		</div>
 		<div id="what-kinds-of-files-can-i-upload" class="question">
 			<h3>What kinds of files can I upload?</h3>

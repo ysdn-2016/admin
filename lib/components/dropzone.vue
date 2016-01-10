@@ -77,7 +77,7 @@ export default {
 			return config.app.root
 		},
 		projectId() {
-			return this.$route.params.id
+			return this.$route.params.id || this.$parent.id
 		},
 		imageIconSrc () {
 			return `${this.root}/assets/icon-image.svg`

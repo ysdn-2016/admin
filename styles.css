@@ -388,13 +388,17 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	font-size: 13px;
 	line-height: 1.35;
 	cursor: pointer;
-	transition: background 100ms ease,
-	border 100ms ease;
+	opacity: 0.5;
+	transition:
+		background 100ms ease,
+		opacity 100ms ease,
+		border 100ms ease;
 }
 
 .option-project-type--selected {
-	background: #effcf5;
-	border: 1px #81d5a5 solid;
+	background: #fafafa;
+	border: 1px #f2f2f2 solid;
+	opacity: 1.0;
 }
 
 .option-project-type + .option-project-type {
