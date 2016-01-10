@@ -8,17 +8,16 @@
 				<a @click.prevent="save" class="button primary" :class="{ 'disabled': !valid }">{{ saveButtonTitle }}</a>
 			</div>
 		</header>
-		<div class="form-field project-draft-field">
-			<!-- <label><input v-model="draft" type="checkbox" disabled /> Draft</label> -->
+		<!-- <div class="form-field project-draft-field">
+			<label><input v-model="draft" type="checkbox" disabled /> Draft</label>
 			<label class="project-draft-checkbox">
 				<input type="checkbox" disabled checked />
 				<span class="project-draft-checkbox-box"></span>
 				Draft
 			</label>
 			<p class="form-field-note">All posts are temporarily locked in draft mode until the site is live.</p>
-		</div>
+		</div> -->
 		<div class="form-field project-type-field">
-			<label class="form-field-label">Type</label>
 			<div class="option-project-type-list">
 				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.STANDARD }" @click.prevent="setProjectTypeStandard">
 					<div class="option-project-type-title">Standard Project</div>
@@ -41,7 +40,10 @@
 			</div>
 		</div>
 		<div class="form-field project-tags-field">
-			<label for="category" class="form-field-label">Category</label>
+			<header class="form-field-header">
+				<label for="category" class="form-field-label">Category</label>
+				<a class="form-field-help-text" v-link="{ path: '/faq#my-project-doesnt-really-fit' }" target="_blank">Need help picking a category?</a>
+			</header>
 			<select id="category" v-model="category">
 				<option disabled selected value="">Select a category</option>
 				<option disabled value="">&nbsp;</option>
@@ -60,7 +62,7 @@
 		<div class="form-field project-assets-field">
 			<header class="form-field-header">
 				<label class="form-field-label">Assets</label>
-				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What are the requirements for uploads?</a>
+				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What files can be uploaded?</a>
 			</header>
 			<dropzone :show-insert-button="type === ProjectTypes.CASE_STUDY" :assets="assets" :limit="12" @insert="insertImage"></dropzone>
 		</div>
