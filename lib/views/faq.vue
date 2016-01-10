@@ -18,8 +18,8 @@
 		<div id="what-kinds-of-files-can-i-upload" class="question">
 			<h3>What kinds of files can I upload?</h3>
 			<p>We currently accept PNG, JPG, and GIF images. (We also support WEBP if you're feeling fancy.)</p>
-			<p>All images should be <strong>at least {{ minImageDimensions }} pixels in width</strong>, and any height. This is intentionally large to accomodate retina devices.</p>
-			<p>Like any good web project, you should be keeping the size of your images small. <strong>We block uploads over 3MB.</strong> If you need help keeping file sizes down, we suggest you look into tools like <a href="https://imageoptim.com/">ImageOptim</a>, which losslessly compress your images.</p>
+			<p>All images should be <strong>at least {{ minImageDimensions }} pixels in width</strong>, and any height. This is intentionally large to accomodate retina devices. We will be resizing images down as needed on our end.</p>
+			<p>Like any good web project, you should be keeping the size of your images small. <strong>We block uploads over {{ maxFileSizeHuman }}.</strong> If you need help keeping file sizes down, we suggest you look into tools like <a href="https://imageoptim.com/">ImageOptim</a>, which losslessly compress your images.</p>
 		</div>
 		<div id="i-have-a-video-motion-piece" class="question">
 			<h3>I have a video/motion piece. What should I do?</h3>
@@ -56,6 +56,9 @@ export default {
 	computed: {
 		minImageDimensions () {
 			return config.api.minImageDimensions
+		},
+		maxFileSizeHuman () {
+			return config.api.maxFileSizeHuman
 		}
 	},
 	ready () {
