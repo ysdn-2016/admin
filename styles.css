@@ -19,7 +19,7 @@ textarea {
 	border-radius: 4px;
 	outline: none;
 	width: 100%;
-	font-family: Menlo, monospace;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 	font-size: 13px;
 	resize: none;
 }
@@ -104,12 +104,41 @@ a.button.destructive {
 	padding: 1rem;
 }
 
-.form-field input[type="checkbox"] {
+.project-draft-checkbox {
+	cursor: pointer;
+}
+
+.project-draft-checkbox-box {
+	display: inline-block;
+	background: #f2f2f2;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 4px;
+	width: 18px;
+	height: 18px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.project-draft-checkbox input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"]:checked + .project-draft-checkbox-box {
+	background-image: url("assets/icon-check.svg");
+}
+
+input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
+	background-image: url("assets/icon-check-disabled.svg");
+}
+
+.form-field .project-draft-checkbox-box {
 	position: relative;
 	top: -1px;
-	margin: 0 0.25em 0 0;
+	margin: 0 0.4em 0 0;
 	padding: 0;
 }
+
 
 .form-field-note {
 	font-size: 12px;
@@ -164,8 +193,6 @@ a.button.destructive {
 .callout.error {
 	border-color: #ebccd1;
 	color: #a94442;
-	/*background: #f65c4d;*/
-
 	background-color: #f2dede;
 }
 
@@ -260,10 +287,14 @@ a.button.destructive {
 .project-preview-title {
 	display: block;
 	font-weight: bold;
+	margin-bottom: 0.125rem;
 }
 
 .project-preview-badge {
 	margin-left: 0.25em;
+	border: 1px currentColor solid;
+	border-radius: 3px;
+	padding: 0.1rem 0.2rem;
 	color: #f5ae7a;
 	font-size: 9px;
 	letter-spacing: 0.05em;
@@ -273,7 +304,7 @@ a.button.destructive {
 
 .project-preview-slug {
 	opacity: 0.5;
-	font-family: Menlo, monospace;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 	font-size: 11px;
 }
 
@@ -320,9 +351,9 @@ a.button.destructive {
 }
 
 .form-field-header {
-	margin: 2.5rem 0 0.5rem;
 	display: flex;
 	justify-content: space-between;
+	margin: 2.5rem 0 0.5rem;
 }
 
 .form-field-help-text {
@@ -344,6 +375,44 @@ a.button.destructive {
 	margin-top: 0.5rem;
 	font-size: 12px;
 }
+
+.option-project-type-list {
+	display: flex;
+}
+
+.option-project-type {
+	border: 1px #efefef solid;
+	border-radius: 4px;
+	flex: 1 0 auto;
+	padding: 0.75rem 1rem;
+	font-size: 13px;
+	line-height: 1.35;
+	cursor: pointer;
+	transition: background 100ms ease,
+	border 100ms ease;
+}
+
+.option-project-type--selected {
+	background: #effcf5;
+	border: 1px #81d5a5 solid;
+}
+
+.option-project-type + .option-project-type {
+	margin-left: 1rem;
+}
+
+.option-project-type-title {
+	font-weight: bold;
+}
+
+.option-project-type-note {
+	color: #777;
+	font-size: 11px;
+}
+
+/**
+ * Dropzone
+ */
 
 .dropzone {
 	position: relative;
@@ -405,6 +474,18 @@ a.button.destructive {
 	padding-right: 1em;
 }
 
+.dropzone-over-limit {
+	margin-bottom: 2rem;
+	color: #7f7f7f;
+	font-size: 12px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+.dropzone-over-limit a {
+	border-bottom: 1px currentColor solid;
+}
+
 .dropzone input[type="file"] {
 	position: absolute;
 	top: 0;
@@ -434,6 +515,7 @@ a.button.destructive {
 .dropzone-file-preview {
 	background: #ccc;
 	background-size: cover;
+	background-position: center;
 	border-radius: 4px;
 	overflow: hidden;
 	margin-right: 1.5rem;
@@ -457,10 +539,6 @@ a.button.destructive {
 .dropzone-file-name {
 	display: block;
 	font-weight: bold;
-}
-
-.dropzone-file-size {
-	/*font-family: Menlo, monospace;*/
 }
 
 .dropzone-file-size.medium {
@@ -495,6 +573,7 @@ a.button.destructive {
 }
 
 .dropzone-action-insert {
+	margin-right: 2rem;
 }
 
 .dropzone-action-delete {
@@ -581,28 +660,43 @@ a.button.destructive {
 }
 
 .editor-preview a {
-	color: #5ac2b4;
 	border-bottom: 1px currentColor solid;
+	color: #5ac2b4;
 }
 
 .editor-preview blockquote {
+	border-left: 3px rgba(0, 0, 0, 0.1) solid;
 	margin: 1em 0;
 	padding: 0 0 0 0.75em;
-	border-left: 3px rgba(0, 0, 0, 0.1) solid;
+}
+
+.editor-preview img {
+	-webkit-user-drag: none;
+	-moz-user-drag: none;
+	-ms-user-drag: none;
+	user-drag: none;
+}
+
+/**
+ * Utilities
+ */
+
+.hidden {
+	display: none;
 }
 
 @font-face {
-  font-family: 'Proxima Nova';
+	font-family: "Proxima Nova";
 	font-weight: normal;
 	font-style: normal;
-  src: url('assets/fonts/ProximaNova-Regular.woff') format('woff'),
-       url('assets/fonts/ProximaNova-Regular.ttf') format('truetype');
+	src: url("assets/fonts/ProximaNova-Regular.woff") format("woff"),
+	url("assets/fonts/ProximaNova-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Proxima Nova';
+	font-family: "Proxima Nova";
 	font-weight: bold;
 	font-style: normal;
-  src: url('assets/fonts/ProximaNova-Semibold.woff') format('woff'),
-       url('assets/fonts/ProximaNova-Semibold.ttf') format('truetype');
+	src: url("assets/fonts/ProximaNova-Semibold.woff") format("woff"),
+	url("assets/fonts/ProximaNova-Semibold.ttf") format("truetype");
 }

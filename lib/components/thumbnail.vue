@@ -10,8 +10,8 @@
 			<span class="dropzone-file-size" :class="sizeClass" v-if="!loading">{{ size | filesize }}</span>
 		</div>
 		<div class="dropzone-file-actions">
-			<!-- <a href="#" class="dropzone-action dropzone-action-insert" @click.prevent="insert">Insert</a> -->
 			<a :href="url" class="dropzone-action dropzone-action-view" target="_blank">View</a>
+			<a href="#" class="dropzone-action dropzone-action-insert" v-if="showInsertButton === true" @click.prevent="insert">Insert</a>
 			<a href="#" class="dropzone-action dropzone-action-delete" @click.prevent="delete">Delete</a>
 		</div>
 	</div>
@@ -28,6 +28,10 @@ export default {
 	name: 'Thumbnail',
 
 	props: {
+		showInsertButton: {
+			type: Boolean,
+			required: true
+		},
 		asset: {
 			type: Object,
 			required: true
@@ -88,9 +92,9 @@ export default {
 			return this.asset.url
 		},
 		sizeClass: function () {
-			if (this.size > (0.9 * MB)) return 'massive'
-			if (this.size > (0.6 * MB)) return 'large'
-			if (this.size > (0.4 * MB)) return 'medium'
+			if (this.size > (1.7 * MB)) return 'massive'
+			if (this.size > (1.2 * MB)) return 'large'
+			if (this.size > (0.5 * MB)) return 'medium'
 			return ''
 		}
 	},

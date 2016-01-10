@@ -23,11 +23,11 @@
 				<a v-link="{ name: 'project:new' }" class="button">Add a Project</a>
 			</div>
 			<div class="project-preview" v-for="project in projects" v-if="!!projects.length">
-				<div class="project-preview-title">
-					<a v-link="{ name: 'project', params: { id: project.id }}">{{ project.title }}</a>
+				<a v-link="{ name: 'project', params: { id: project.id }}" class="project-preview-title">
+					<span>{{ project.title }}</span>
 					<span class="project-preview-badge" v-if="project.draft">Draft</span>
-				</div>
-				<a class="project-preview-slug" href="{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}">{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}</a>
+				</a>
+				<a class="project-preview-slug" href="{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}" target="_blank">{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}</a>
 			</div>
 		</div>
 	</section>

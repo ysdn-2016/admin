@@ -11,6 +11,10 @@
 			<h3>How do I use this thing?</h3>
 			<p>We've put together <a href="http://ysdn-gradshow.s3.amazonaws.com/screengrabs/guide.mp4">a little screencast</a> to walk you through the process of uploading a project.</p>
 		</div>
+		<div id="how-many-" class="question">
+			<h3>How many projects do I need to upload?</h3>
+			<p>We're asking that all students submit <em>at least</em> three projects. One of these three projects should be a case study. The other two may be regular projects or case studies—the choice is yours.</p>
+		</div>
 		<div id="what-kinds-of-files-can-i-upload" class="question">
 			<h3>What kinds of files can I upload?</h3>
 			<p>We currently accept PNG, JPG, and GIF images. (We also support WEBP if you're feeling fancy.)</p>
@@ -24,7 +28,7 @@
 		</div>
 		<div id="my-project-doesnt-really-fit" class="question">
 			<h3>My project doesn't really fit into any of the categories. What should I do?</h3>
-			<p>We've chosen the categories to accomodate all of the work you might produce in YSDN. Keep in mind, the point of categorizing work is not to perfectly describe it, but help people can discover your work when grouped with similar pieces. Just go with the most fitting one.</p>
+			<p>We've chosen the categories to accomodate all of the work you might produce in YSDN. In fact, we've <a v-link="{ name: 'categories' }">mapped every course to a category</a> as a rough guide. Keep in mind, the point of categorizing work is not to perfectly describe it, but help people can discover your work when grouped with similar pieces. Just go with the most fitting one.</p>
 			<p>That said, if you really feel like we're missing a category, <a href="https://www.facebook.com/messages/100007107395716">let us know</a>.</p>
 		</div>
 	</div>

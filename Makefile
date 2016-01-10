@@ -23,7 +23,7 @@ BRANCH    = $(shell git rev-parse --abbrev-ref HEAD)
 # Tasks
 #
 
-build: install build-js build-css build-assets
+build: install build-css build-assets build-js
 
 build-js: build/bundle.js
 build-css: build/styles.css
@@ -51,6 +51,12 @@ deploy:
 		echo "\033[0m")
 	@make clean
 	@echo "Deployed to \033[0;32mhttp://ysdn2016.com/admin/\033[0m"
+
+ssh:
+	@ssh root@159.203.25.109
+
+db\:connect:
+	@ssh -tt root@159.203.25.109 'dokku mongo:connect gradshow'
 
 lint:
 	@xo
@@ -82,7 +88,8 @@ build/%: %
 build/index.html: index.html
 	@sed \
 		-e "s/\/bundle.js/\/admin\/bundle.js?`date +%s`/" \
-		-e "s/\/styles.css/\/admin\/styles.css?`date +%s`/" $< > $@
+		-e "s/\/styles.css/\/admin\/styles.css?`date +%s`/" \
+		-e "s/\/favicon.png/\/admin\/favicon.png/" $< > $@
 
 build/bundle.js: $(SCRIPTS)
 	@mkdir -p build/

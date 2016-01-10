@@ -11,7 +11,7 @@
 			 v-el:editor
 			 v-model="content"
 			 v-show="!previewing">{{ contents }}</textarea>
-		<div class="editor-preview" v-show="previewing" v-html="content | default 'Nothing to preview' | markdown"></div>
+		<div class="editor-preview" v-show="previewing" v-html="content | link_assets assets | markdown | default 'Nothing to preview'"></div>
 	</div>
 </template>
 
@@ -24,6 +24,10 @@ export default {
 	name: 'Editor',
 
 	props: {
+		assets: {
+			type: Array,
+			required: true
+		},
 		content: {
 			type: String,
 			required: true

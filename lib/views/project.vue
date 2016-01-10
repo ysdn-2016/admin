@@ -9,12 +9,30 @@
 			</div>
 		</header>
 		<div class="form-field project-draft-field">
-			<label><input v-model="draft" type="checkbox" disabled /> Draft</label>
-			<p class="form-field-note">All posts are temporarily in draft mode until the site is live.</p>
+			<!-- <label><input v-model="draft" type="checkbox" disabled /> Draft</label> -->
+			<label class="project-draft-checkbox">
+				<input type="checkbox" disabled checked />
+				<span class="project-draft-checkbox-box"></span>
+				Draft
+			</label>
+			<p class="form-field-note">All posts are temporarily locked in draft mode until the site is live.</p>
+		</div>
+		<div class="form-field project-type-field">
+			<label class="form-field-label">Type</label>
+			<div class="option-project-type-list">
+				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.STANDARD }" @click.prevent="setProjectTypeStandard">
+					<div class="option-project-type-title">Standard Project</div>
+					<div class="option-project-type-note">A selection of images with a description</div>
+				</div>
+				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.CASE_STUDY }" @click.prevent="setProjectTypeCaseStudy">
+					<div class="option-project-type-title">Case Study</div>
+					<div class="option-project-type-note">An in-depth overview of a project</div>
+				</div>
+			</div>
 		</div>
 		<div class="form-field project-title-field">
 			<label class="form-field-label"  for="title">Title</label>
-			<input type="text" id="title" placeholder="Project Title..." v-model="title" />
+			<input type="text" id="title" placeholder="Project Title..." v-model="title" maxlength="40" />
 			<div class="project-slug" v-if="title.length">
 				<a href="{{ url }}" target="_blank" v-if="published">
 					<span class="slug-domain">{{ domain }}/{{ user.name | slug }}/</span><!--
@@ -23,7 +41,7 @@
 			</div>
 		</div>
 		<div class="form-field project-tags-field">
-			<label for="category" class="form-field-label">Project Category</label>
+			<label for="category" class="form-field-label">Category</label>
 			<select id="category" v-model="category">
 				<option disabled selected value="">Select a category</option>
 				<option disabled value="">&nbsp;</option>
@@ -32,16 +50,23 @@
 				</optgroup>
 			</select>
 		</div>
+		<!-- <div class="form-field project-thumbnail-field">
+			<header class="form-field-header">
+				<label class="form-field-label">Thumbnail</label>
+				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What makes a good thumbnail?</a>
+			</header>
+			<dropzone :limit="1" prompt="Drop Thumbnail Image Here"></dropzone>
+		</div> -->
 		<div class="form-field project-assets-field">
 			<header class="form-field-header">
 				<label class="form-field-label">Assets</label>
-				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">Upload Requirements</a>
+				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What are the requirements for uploads?</a>
 			</header>
-			<dropzone :project_id="id" :files="files" :assets="assets"></dropzone>
+			<dropzone :show-insert-button="type === ProjectTypes.CASE_STUDY" :assets="assets" :limit="12" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field project-contents-field">
 			<label class="form-field-label">Description</label>
-			<editor :content.sync="contents">
+			<editor :assets="assets" :content.sync="contents">
 		</div>
 		<div class="form-field form-advanced-actions" v-if="published">
 			<a @click.prevent="delete">Delete Project</a>
@@ -60,6 +85,10 @@ import router from '../router'
 
 import slug from '../filters/slug'
 
+import {
+	ProjectTypes
+} from '../constants'
+
 import Dropzone from '../components/dropzone.vue'
 import Editor from '../components/editor.vue'
 
@@ -68,7 +97,7 @@ const error = err => {
 	console.error(err)
 }
 
-// TODO: on upload, maybe we can ping a Slack endpoint and trigger a deploy
+// TODO: on save, maybe we can ping a Slack endpoint and trigger a deploy
 // through a Slackbot of some kind?
 export default {
 
@@ -82,11 +111,11 @@ export default {
 	data () {
 		return {
 			id: '',
+			type: ProjectTypes.CASE_STUDY,
 			title: '',
 			contents: '',
 			owner_id: '',
 			draft: true,
-			files: [],
 			assets: [],
 			categories: extend({}, config.content.categories),
 			category: '',
@@ -98,6 +127,9 @@ export default {
 	},
 
 	computed: {
+		ProjectTypes () {
+			return ProjectTypes
+		},
 		valid () {
 			return this.title.trim().length &&
 				this.contents.trim().length &&
@@ -123,10 +155,20 @@ export default {
 	},
 
 	methods: {
+		setProjectTypeStandard () {
+			this.type = ProjectTypes.STANDARD
+		},
+		setProjectTypeCaseStudy () {
+			this.type = ProjectTypes.CASE_STUDY
+		},
+		insertImage (path) {
+			this.contents += `\n\n![Alt text for image](${path})`
+		},
 		save () {
 			if (!this.valid) return
 			api.projects.save(auth.user.id, {
 				id: this.id,
+				type: this.type,
 				title: this.title,
 				contents: this.contents,
 				category: this.category,

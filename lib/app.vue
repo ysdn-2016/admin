@@ -7,7 +7,7 @@
 		<div class="header-actions">
 			<a class="header-home" v-link="{ name: 'home' }">Home</a>
 			<a class="header-faq" v-link="{ name: 'faq' }">FAQ</a>
-			<a class="header-login" @click="login" v-if="!user.authenticated">Log In</a>
+			<a class="header-login" v-link="{ name: 'login' }" v-if="!user.authenticated">Log In</a>
 			<div class="header-user" v-if="user.authenticated">
 				<span class="header-user-name">{{ user.name | firstname }}</span>
 				<a class="header-logout" @click="logout">Log Out</a>
@@ -30,14 +30,12 @@ export default {
 
 	data () {
 		return {
+			loading: false,
 			user: auth.user
 		}
 	},
 
 	methods: {
-		login () {
-			router.go({ name: 'login' })
-		},
 		logout () {
 			auth.logout()
 		}

@@ -8,16 +8,21 @@
 				v-for="(index, asset) in assets"
 				:asset="asset"
 				:index="index"
-				@delete="onDeleteFile"></thumbnail>
+				:show-insert-button="showInsertButton"
+				@delete="onDeleteFile"
+				@insert="onInsertContent"></thumbnail>
 		</div>
-		<div class="dropzone-prompt">
+		<div class="dropzone-prompt" v-show="assets.length < limit">
 			<div class="dropzone-help">
 				<img :src="imageIconSrc" class="dropzone-help-icon" />
-				<span class="dropzone-help-text">Drop images here</span>
+				<span class="dropzone-help-text">{{ prompt }}</span>
 			</div>
 			<input type="file" name="file" class="dropzone-file" multiple
 				v-el:input
 				@change="onFileSelect" />
+		</div>
+		<div class="dropzone-over-limit" v-show="assets.length >= limit">
+			<p>You've reached your upload limit.<br/>Need more? <a href="https://www.facebook.com/messages/100007107395716" target="_blank">Let us know.</a></p>
 		</div>
 	</div>
 </template>
@@ -27,17 +32,11 @@
 import api from '../api'
 import auth from '../auth'
 import config from '../config'
+import router from '../router'
 
 import Thumbnail from './thumbnail.vue'
 
 const prevent = e => e.preventDefault()
-const allowed = [
-	'image/png',
-	'image/gif',
-	'image/jpg',
-	'image/jpeg',
-	'image/webp'
-]
 
 export default {
 
@@ -48,19 +47,27 @@ export default {
 	},
 
 	props: {
-		project_id: {
-			type: String,
-			required: true
-		},
 		assets: {
 			type: Array,
-			required: true
+			default: () => []
+		},
+		prompt: {
+			type: String,
+			default: 'Drop images here'
+		},
+		showInsertButton: {
+			type: Boolean,
+			default: false,
+			required: false
+		},
+		limit: {
+			type: Number,
+			default: 5
 		}
 	},
 
 	data () {
 		return {
-			files: [],
 			errors: []
 		}
 	},
@@ -68,6 +75,9 @@ export default {
 	computed: {
 		root () {
 			return config.app.root
+		},
+		projectId() {
+			return this.$route.params.id
 		},
 		imageIconSrc () {
 			return `${this.root}/assets/icon-image.svg`
@@ -91,19 +101,19 @@ export default {
 			this.handleFiles(files)
 		},
 
-		onDeleteFile (index) {
-			var asset = this.assets[index]
-			api.assets.destroy(auth.user.id, this.project_id, asset.id)
-				.then(() => this.assets.splice(index, 1))
-				.catch(error('There was an error deleting the last image. Try again later, or contact Ross for help.'))
-		},
-
 		onPreviewFile (url) {
 			this.$emit('preview', url)
 		},
 
 		onInsertContent (path) {
 			this.$emit('insert', path)
+		},
+
+		onDeleteFile (index) {
+			var asset = this.assets[index]
+			api.assets.destroy(auth.user.id, this.projectId, asset.id)
+				.then(() => this.assets.splice(index, 1))
+				.catch(error('There was an error deleting the last image. Try again later, or contact Ross for help.'))
 		},
 
 		dragOver (e) {
@@ -123,7 +133,7 @@ export default {
 					alert(`Unknown file type`)
 					return
 				}
-				if (allowed.indexOf(mime) === -1) {
+				if (config.api.allowedFileMimeTypes.indexOf(mime) === -1) {
 					var name = file.name
 					var ext = mime.length < 1 ? name.split('.').pop() : mime.split('/').pop()
 					if (ext === name) {
@@ -134,13 +144,13 @@ export default {
 					return
 				}
 				if (file.size > config.api.maxFileSize) {
-					alert(`We can't accept files that are larger than 1MB. Look at the FAQ if you need help reducing the size of your images.`)
+					alert(`We can't accept files that are larger than ${config.api.maxFileSizeHuman}. Look at the FAQ if you need help reducing the size of your images.`)
 					return
 				}
 				getImageDimensionsFromFile(file)
 					.catch(error('There was an error. Mind pinging Ross on Facebook. Tell him: the call to getImageDimensionsFromFile in dropzone.vue failed.'))
 					.then(dimensions => validateDimensions(dimensions)
-							.then(() => api.assets.save(auth.user.id, this.project_id, file)
+							.then(() => api.assets.save(auth.user.id, this.projectId, file)
 								.then(res => this.assets.push(res.asset)))
 							.catch(err => {
 								console.log(err)
