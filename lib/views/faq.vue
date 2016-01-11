@@ -37,6 +37,12 @@
 			<p>We've chosen the categories to accomodate all of the work you might produce in YSDN. In fact, we've <a v-link="{ name: 'categories' }">mapped every course to a category</a> as a rough guide. Keep in mind, the point of categorizing work is not to perfectly describe it, but help people can discover your work when grouped with similar pieces. Just go with the most fitting one.</p>
 			<p>That said, if you really feel like we're missing a category, <a href="https://www.facebook.com/messages/100007107395716">let us know</a>.</p>
 		</div>
+		<div id="what-makes-a-good-thumbnail" class="question">
+			<h3>What makes a good thumbnail?</h3>
+			<p>Good thumbnails will get people to look at your work. Thumbnails, like any part of a design project, should be designed with intentionality. Some advice:</p>
+			<p><strong>Custom design your thumbnails.</strong> Avoid cropping your thumbnails straight from a larger image. This often leaves you with overly detailed thumbnails that don't look nice. Consider reducing or rearranging the elements to look good in a smaller space.</p>
+			<p>The folks over at <a href="http://cargocollective.com">Cargo Collective</a> have a nice guide on <a href="http://support.cargocollective.com/customer/en/portal/articles/670979-how-to-make-a-great-thumbnail">what makes a great thumbnail</a>, if you'd like a bit more reading on the topic.</p>
+		</div>
 	</div>
 </template>
 
