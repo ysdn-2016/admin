@@ -4,13 +4,13 @@
 		@dragover.stop.prevent="dragOver"
 		@drop.stop.prevent="drop">
 		<div class="dropzone-files" v-show="assets.length">
-			<thumbnail
+			<asset
 				v-for="(index, asset) in assets"
 				:asset="asset"
 				:index="index"
 				:show-insert-button="showInsertButton"
 				@delete="onDeleteFile"
-				@insert="onInsertContent"></thumbnail>
+				@insert="onInsertContent"></asset>
 		</div>
 		<div class="dropzone-prompt" v-show="assets.length < limit">
 			<div class="dropzone-help">
@@ -34,7 +34,9 @@ import auth from '../auth'
 import config from '../config'
 import router from '../router'
 
-import Thumbnail from './thumbnail.vue'
+import validateFile from '../helpers/files'
+
+import Asset from './asset.vue'
 
 const prevent = e => e.preventDefault()
 
@@ -43,7 +45,7 @@ export default {
 	name: 'Dropzone',
 
 	components: {
-		Thumbnail
+		Asset
 	},
 
 	props: {
@@ -128,40 +130,28 @@ export default {
 
 		handleFiles (files) {
 			Array.from(files).forEach(file => {
-				var mime = file.type
-				if (mime == void 0) {
-					alert(`Unknown file type`)
-					return
-				}
-				if (config.api.allowedFileMimeTypes.indexOf(mime) === -1) {
-					var name = file.name
-					var ext = mime.length < 1 ? name.split('.').pop() : mime.split('/').pop()
-					if (ext === name) {
-						alert(`Unknown file type`)
-						return
-					}
-					alert(`File type ${ext} is not allowed`)
-					return
-				}
-				if (file.size > config.api.maxFileSize) {
-					alert(`We can't accept files that are larger than ${config.api.maxFileSizeHuman}. Look at the FAQ if you need help reducing the size of your images.`)
-					return
-				}
-				getImageDimensionsFromFile(file)
-					.catch(error('There was an error. Mind pinging Ross on Facebook. Tell him: the call to getImageDimensionsFromFile in dropzone.vue failed.'))
-					.then(dimensions => validateDimensions(dimensions)
-							.then(() => api.assets.save(auth.user.id, this.projectId, file)
-								.then(res => this.assets.push(res.asset)))
-							.catch(err => {
-								console.log(err)
-								error('There was an error saving this image. Try again later, or contact Ross for help.')
-							}))
-					.catch(error('Your image is not large enough. Images need a minumum width of 800px'))
+				validate(file).then(file => this.save(file))
 			})
+		},
+
+		save (file) {
+			return api.assets.save(auth.user.id, this.projectId, file)
+				.then(res => this.assets.push(res.asset))
+				.catch(imageSaveFailure)
 		}
 
 	}
 
+}
+
+function validate (file) {
+	return validateFile(file)
+		.catch(err => alert(err))
+}
+
+function imageSaveFailure (err) {
+	console.log(err)
+	alert('There was an error saving this image. Try again later, or contact Ross for help.')
 }
 
 function error (message) {
@@ -171,32 +161,7 @@ function error (message) {
 	}
 }
 
-function validateDimensions (dimensions) {
-	if (dimensions.width < config.api.minImageDimensions) {
-		throw new Error('Image not wide enough')
-	}
-	return Promise.resolve(true)
-}
 
-function getImageDimensionsFromFile (file) {
-	var reader = new FileReader()
-	var image = new Image()
-	return new Promise((resolve, reject) => {
-		reader.onload = function (event) {
-			image.onload = function () {
-				resolve({
-					width: image.width,
-					height: image.height
-				})
-			}
-			image.onerror = function () {
-				reject('Invalid file type')
-			}
-			image.src = event.target.result
-		}
-		reader.readAsDataURL(file)
-	})
-}
 
 </script>
 

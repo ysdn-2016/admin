@@ -16,22 +16,6 @@
 			</label>
 			<p class="form-field-note">All posts are temporarily locked in draft mode until the site is live.</p>
 		</div>
-		<div class="form-field project-type-field">
-			<header class="form-field-header">
-				<label class="form-field-label">Project Type</label>
-				<a class="form-field-help-text" v-link="{ path: '/faq#whats-the-difference-between-project-types' }" target="_blank">What's the difference?</a>
-			</header>
-			<div class="option-project-type-list">
-				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.STANDARD }" @click.prevent="setProjectTypeStandard">
-					<div class="option-project-type-title">Standard Project</div>
-					<div class="option-project-type-note">A selection of images with a description</div>
-				</div>
-				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.CASE_STUDY }" @click.prevent="setProjectTypeCaseStudy">
-					<div class="option-project-type-title">Case Study</div>
-					<div class="option-project-type-note">An in-depth overview of a project</div>
-				</div>
-			</div>
-		</div>
 		<div class="form-field project-title-field">
 			<label class="form-field-label"  for="title">Title</label>
 			<input type="text" id="title" placeholder="Project Title..." v-model="title" maxlength="40" />
@@ -55,23 +39,39 @@
 				</optgroup>
 			</select>
 		</div>
-		<!-- <div class="form-field project-thumbnail-field">
+		<div class="form-field project-thumbnail-field">
 			<header class="form-field-header">
 				<label class="form-field-label">Thumbnail</label>
-				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What makes a good thumbnail?</a>
+				<a class="form-field-help-text" v-link="{ path: '/faq#what-makes-a-good-thumbnail' }" target="_blank">What makes a good thumbnail?</a>
 			</header>
-			<dropzone :limit="1" prompt="Drop Thumbnail Image Here"></dropzone>
-		</div> -->
-		<div class="form-field project-assets-field">
+			<thumbnail :file="thumbnail"></thumbnail>
+		</div>
+		<div class="form-field project-type-field">
 			<header class="form-field-header">
-				<label class="form-field-label">Assets</label>
-				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What files can be uploaded?</a>
+				<label class="form-field-label">Project Type</label>
+				<a class="form-field-help-text" v-link="{ path: '/faq#whats-the-difference-between-project-types' }" target="_blank">What's the difference?</a>
 			</header>
-			<dropzone :show-insert-button="type === ProjectTypes.CASE_STUDY" :assets="assets" :limit="12" @insert="insertImage"></dropzone>
+			<div class="option-project-type-list">
+				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.STANDARD }" @click.prevent="setProjectTypeStandard">
+					<div class="option-project-type-title">Standard Project</div>
+					<div class="option-project-type-note">Selection of images with a brief description.</div>
+				</div>
+				<div class="option-project-type" :class="{ 'option-project-type--selected': type === ProjectTypes.CASE_STUDY }" @click.prevent="setProjectTypeCaseStudy">
+					<div class="option-project-type-title">Case Study</div>
+					<div class="option-project-type-note">In-depth overview of a project.</div>
+				</div>
+			</div>
 		</div>
 		<div class="form-field project-contents-field">
 			<label class="form-field-label">Description</label>
-			<editor :assets="assets" :content.sync="contents">
+			<editor :assets="assets" :content.sync="contents" :size="type === ProjectTypes.CASE_STUDY ? 20 : 8">
+		</div>
+		<div class="form-field project-assets-field">
+			<header class="form-field-header">
+				<label class="form-field-label">{{ type === ProjectTypes.CASE_STUDY ? 'Assets' : 'Images' }}</label>
+				<a class="form-field-help-text" v-link="{ path: '/faq#what-kinds-of-files-can-i-upload' }" target="_blank">What files can be uploaded?</a>
+			</header>
+			<dropzone :show-insert-button="type === ProjectTypes.CASE_STUDY" :assets="assets" :limit="12" @insert="insertImage"></dropzone>
 		</div>
 		<div class="form-field form-advanced-actions" v-if="published">
 			<a @click.prevent="delete">Delete Project</a>
@@ -96,6 +96,7 @@ import {
 
 import Dropzone from '../components/dropzone.vue'
 import Editor from '../components/editor.vue'
+import Thumbnail from '../components/thumbnail.vue'
 
 const error = err => {
 	alert('An error occured. Open the console (⌘+opt+J), take a screen shot, and send it to Ross. (Sorry for the inconvenience)')
@@ -110,7 +111,8 @@ export default {
 
 	components: {
 		Dropzone,
-		Editor
+		Editor,
+		Thumbnail
 	},
 
 	data () {
@@ -121,6 +123,7 @@ export default {
 			contents: '',
 			owner_id: '',
 			draft: true,
+			thumbnail: {},
 			assets: [],
 			categories: extend({}, config.content.categories),
 			category: '',
@@ -176,6 +179,7 @@ export default {
 				id: this.id,
 				type: this.type,
 				title: this.title,
+				thumbnail: this.thumbnail,
 				contents: this.contents,
 				category: this.category,
 				draft: this.draft,

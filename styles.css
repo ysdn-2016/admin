@@ -347,7 +347,7 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 .form-field {
 	position: relative;
 	display: block;
-	margin-bottom: 2rem;
+	margin-bottom: 3rem;
 }
 
 .form-field-header {
@@ -460,13 +460,9 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 
 
 .dropzone--has-files .dropzone-prompt {
-	border-color: #f2f2f2;
+	border-color: #e2e2e2;
 	padding: 1.5rem 2rem;
 	font-size: 10px;
-}
-
-.dropzone--has-files .dropzone-help {
-	opacity: 0.75;
 }
 
 .dropzone--has-files .dropzone-help-icon {
@@ -687,6 +683,10 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	border-left: 3px rgba(0, 0, 0, 0.1) solid;
 	margin: 1em 0;
 	padding: 0 0 0 0.75em;
+}
+
+.editor-preview .fluid-width-video-wrapper {
+	margin: 1rem 0;
 }
 
 .editor-preview img {

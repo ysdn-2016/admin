@@ -8,16 +8,18 @@
 			<a class="editor-help-markdown" href="https://guides.github.com/features/mastering-markdown/#what" target="_blank">Markdown is supported</a>
 		</header>
 		<textarea placeholder="Enter a description of this project"
+			 :rows="size"
 			 v-el:editor
 			 v-model="content"
 			 v-show="!previewing">{{ contents }}</textarea>
-		<div class="editor-preview" v-show="previewing" v-html="content | link_assets assets | markdown | default 'Nothing to preview'"></div>
+		<div class="editor-preview" v-el:preview v-if="previewing" v-html="content | link_assets assets | markdown | default 'Nothing to preview'"></div>
 	</div>
 </template>
 
 <script>
 
 import autosize from 'autosize'
+import fitvids from 'fitvids'
 
 export default {
 
@@ -31,6 +33,10 @@ export default {
 		content: {
 			type: String,
 			required: true
+		},
+		size: {
+			type: Number,
+			default: 8
 		}
 	},
 
@@ -45,12 +51,17 @@ export default {
 	},
 
 	watch: {
-		content: 'update'
+		content: 'update',
+		size: 'update',
+		previewing: 'fit'
 	},
 
 	methods: {
 		update () {
 			autosize.update(this.$els.editor)
+		},
+		fit () {
+			fitvids('.editor-preview')
 		},
 		enableEditor () {
 			this.previewing = false
