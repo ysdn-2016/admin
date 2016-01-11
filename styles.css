@@ -56,8 +56,10 @@ a {
 	text-decoration: none;
 }
 
-a.button {
+a.button,
+button {
 	background: #cacaca;
+	border: none;
 	border-radius: 4px;
 	display: inline-block;
 	padding: 0.6rem 1rem 0.5rem;
@@ -72,7 +74,8 @@ a.button {
 	        user-select: none;
 }
 
-a.button.primary {
+a.button.primary,
+button.primary {
 	background: #58d18c;
 	padding-right: 1.2rem;
 	padding-left: 1.2rem;
@@ -81,11 +84,13 @@ a.button.primary {
 	        user-select: none;
 }
 
-a.button.primary.disabled {
+a.button.primary.disabled,
+button.primary.disabled {
 	color: #8ddbaf;
 }
 
-a.button.destructive {
+a.button.destructive,
+button.destructive {
 	background: transparent;
 	color: #f58866;
 }
