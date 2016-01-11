@@ -22,12 +22,20 @@
 				<p class="project-create-prompt">You don't have any projects uploaded yet.</p>
 				<a v-link="{ name: 'project:new' }" class="button">Add a Project</a>
 			</div>
-			<div class="project-preview" v-for="project in projects" v-if="!!projects.length">
-				<a v-link="{ name: 'project', params: { id: project.id }}" class="project-preview-title">
-					<span>{{ project.title }}</span>
-					<span class="project-preview-badge" v-if="project.draft">Draft</span>
-				</a>
-				<a class="project-preview-slug" href="{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}" target="_blank">{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}</a>
+			<div class="project-list" v-if="!!projects.length">
+				<template v-for="project in projects">
+					<a v-link="{ name: 'project', params: { id: project.id }}" class="project-preview">
+						<div class="project-preview-thumbnail" :style="{ 'background-image': 'url(' + project.thumbnail.url + ')' }"></div>
+						<div class="project-preview-details">
+							<div class="project-preview-title">
+								<span>{{ project.title }}</span>
+								<span class="project-preview-badge" v-if="project.draft">Draft</span>
+								<span class="project-preview-badge" v-if="project.type === ProjectTypes.CASE_STUDY">Case Study</span>
+							</div>
+							<div class="project-preview-slug" href="{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}" target="_blank">{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}</div>
+						</div>
+					</a>
+				</template>
 			</div>
 		</div>
 	</section>
@@ -38,6 +46,10 @@
 import api from '../api'
 import auth from '../auth'
 import config from '../config'
+
+import {
+	ProjectTypes
+} from '../constants'
 
 export default {
 	name: 'HomeView',
@@ -52,6 +64,9 @@ export default {
 	computed: {
 		domain () {
 			return config.domain
+		},
+		ProjectTypes () {
+			return ProjectTypes
 		}
 	},
 

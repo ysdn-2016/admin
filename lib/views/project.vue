@@ -44,7 +44,7 @@
 				<label class="form-field-label">Thumbnail</label>
 				<a class="form-field-help-text" v-link="{ path: '/faq#what-makes-a-good-thumbnail' }" target="_blank">What makes a good thumbnail?</a>
 			</header>
-			<thumbnail :file="thumbnail"></thumbnail>
+			<thumbnail :file.sync="thumbnail"></thumbnail>
 		</div>
 		<div class="form-field project-type-field">
 			<header class="form-field-header">
@@ -141,7 +141,8 @@ export default {
 		valid () {
 			return this.title.trim().length &&
 				this.contents.trim().length &&
-				this.category.trim().length
+				this.category.trim().length &&
+				this.thumbnail && this.thumbnail.url
 		},
 		domain () {
 			return config.domain
