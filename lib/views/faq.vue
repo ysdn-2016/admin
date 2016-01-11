@@ -37,6 +37,11 @@
 			<p>We've chosen the categories to accomodate all of the work you might produce in YSDN. In fact, we've <a v-link="{ name: 'categories' }">mapped every course to a category</a> as a rough guide. Keep in mind, the point of categorizing work is not to perfectly describe it, but help people can discover your work when grouped with similar pieces. Just go with the most fitting one.</p>
 			<p>That said, if you really feel like we're missing a category, <a href="https://www.facebook.com/messages/100007107395716">let us know</a>.</p>
 		</div>
+		<div id="i-have-a-group-project" class="question">
+			<h3>A few of us worked together on a group project. What should we do?</h3>
+			<p>For now, everyone should just upload the project individually. To avoid confusion for visitors to the gradshow site, each person should upload a slightly different thumbnail for group projects.</p>
+			<p>If we find there are a lot of group projects, we'll look into adding a way to "share" a project between multiple people.</p>
+		</div>
 		<div id="what-makes-a-good-thumbnail" class="question">
 			<h3>What makes a good thumbnail?</h3>
 			<p>Good thumbnails will get people to look at your work. Thumbnails, like any part of a design project, should be designed with intentionality. Some advice:</p>
