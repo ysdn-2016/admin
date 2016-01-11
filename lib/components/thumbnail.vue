@@ -6,7 +6,7 @@
 		@drop.stop.prevent="drop">
 		<a :href="url" target="_blank" class="thumbnail-preview"
 			:class="{ 'thumbnail-preview--has-image': hasUploadedImage }"
-			:style="{ 'background-image': 'url(' + url + ')' }">
+			:style="{ 'background-image': 'url(' + imageUrl + ')' }">
 			<input type="file" name="thumbnail" v-el:input v-if="!hasUploadedImage" @change="onFileSelect" />
 		</a>
 		<div class="thumbnail-actions">
@@ -58,6 +58,9 @@ export default {
 			return typeof this.file.url !== 'undefined'
 		},
 		url () {
+			return this.file.url
+		},
+		imageUrl () {
 			return this.file.url || this.imageIconSrc
 		},
 		imageIconSrc () {
