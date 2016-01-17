@@ -51,7 +51,9 @@
   "xo": {
     "esnext": true,
     "semicolon": false,
-    "browser": true,
+    "envs": [
+      "browser"
+    ],
     "rules": {
       "babel/object-curly-spacing": [
         2,
