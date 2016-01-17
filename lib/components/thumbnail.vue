@@ -7,7 +7,7 @@
 		<a :href="url" target="_blank" class="thumbnail-preview"
 			:class="{ 'thumbnail-preview--has-image': hasUploadedImage }"
 			:style="{ 'background-image': 'url(' + imageUrl + ')' }">
-			<input type="file" name="thumbnail" v-el:input v-if="!hasUploadedImage" @change="onFileSelect" />
+			<input type="file" name="thumbnail" v-el:input @change="onFileSelect" />
 		</a>
 		<div class="thumbnail-actions">
 			<p>Upload an image to represent your project. Any aspect ratio is allowed&mdash;square, portrait, or landscape. Do what works best for your work!</p>
@@ -96,6 +96,7 @@ export default {
 		},
 
 		select () {
+			if (this.hasUploadedImage) return
 			this.$els.input.click()
 		},
 
