@@ -96,17 +96,21 @@ export default {
 		},
 
 		select () {
-			if (this.hasUploadedImage) return
 			this.$els.input.click()
 		},
 
 		handleFiles (files) {
 			Array.from(files).forEach(file => {
-				validate(file).then(file => this.save(file))
+				validate(file)
+					.then(file => {
+						if (!file) return
+						this.save(file)
+					})
 			})
 		},
 
 		save (file) {
+			console.log(file)
 			return api.projects.saveThumbnail(auth.user.id, this.projectId, file)
 				.then(res => this.file = res.file)
 				.catch(imageSaveFailure)
