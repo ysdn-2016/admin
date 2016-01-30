@@ -22,7 +22,7 @@
 				@change="onFileSelect" />
 		</div>
 		<div class="dropzone-over-limit" v-show="assets.length >= limit">
-			<p>You've reached your upload limit.<br/>Need more? <a href="https://www.facebook.com/messages/100007107395716" target="_blank">Let us know.</a></p>
+			<p>You've reached your upload limit.<br/>Questions? <a href="https://www.facebook.com/messages/100007107395716" target="_blank">Shoot us a message.</a></p>
 		</div>
 	</div>
 </template>
