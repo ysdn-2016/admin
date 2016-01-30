@@ -15,7 +15,7 @@
 	<section class="projects-list">
 		<header class="projects-list-header">
 			<span class="projects-list-title">Projects</span>
-			<a v-link="{ name: 'project:new' }" v-if="projects.length && projects.length < 8" class="button">New Project</a>
+			<a v-link="{ name: 'project:new' }" v-if="projects.length && projects.length < maxProjectCount" class="button">New Project</a>
 		</header>
 		<div class="projects">
 			<div class="project-create-nux" v-if="!projects.length">
@@ -64,6 +64,9 @@ export default {
 	computed: {
 		domain () {
 			return config.domain
+		},
+		maxProjectCount () {
+			return config.api.maxProjectCount
 		},
 		ProjectTypes () {
 			return ProjectTypes
