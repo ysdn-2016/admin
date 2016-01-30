@@ -172,7 +172,7 @@ export default {
 			this.type = ProjectTypes.CASE_STUDY
 		},
 		insertImage (path) {
-			this.contents += `\n\n![Alt text for image](${path})`
+			this.contents += `\n\n![](${path})`
 		},
 		save () {
 			if (!this.valid) return
