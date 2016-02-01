@@ -44,7 +44,7 @@
 		</div>
 		<div id="what-makes-a-good-thumbnail" class="question">
 			<h3>What makes a good thumbnail?</h3>
-			<p>Good thumbnails will get people to look at your work. Thumbnails, like any part of a design project, should be designed with intentionality. Some advice:</p>
+			<p>Good thumbnails will get people to look at your work. Thumbnails, like any part of a design project, should be approached with intentionality. Some advice:</p>
 			<p><strong>Custom design your thumbnails.</strong> Avoid cropping your thumbnails straight from a larger image. This often leaves you with overly detailed thumbnails that don't look nice. Consider reducing or rearranging the elements to look good in a smaller space.</p>
 			<p>The folks over at <a href="http://cargocollective.com">Cargo Collective</a> have a nice guide on <a href="http://support.cargocollective.com/customer/en/portal/articles/670979-how-to-make-a-great-thumbnail">what makes a great thumbnail</a>, if you'd like a bit more reading on the topic.</p>
 		</div>

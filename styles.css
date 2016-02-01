@@ -12,6 +12,14 @@ body {
 	padding: 0 0 4rem;
 }
 
+input[disabled] {
+	color: #aaa;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 input:not([type="checkbox"]),
 textarea {
 	background: #f9f9f9;
@@ -147,6 +155,16 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 
 .form-field-note {
 	font-size: 12px;
+}
+
+.field-help-text {
+	margin-top: 10px;
+	color: #ccc;
+	font-size: 12px;
+}
+
+.field-help-text a {
+
 }
 
 .form-field-label {
@@ -362,10 +380,39 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	vertical-align: middle;
 }
 
+
 .form-field {
 	position: relative;
 	display: block;
 	margin-bottom: 3rem;
+}
+
+.form-field-row {
+	margin-top: 14px;
+}
+
+.form-field-thin {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+
+.form-field-thin .form-field-label {
+	background: #f2f2f2;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	display: flex;
+	align-self: stretch;
+	align-items: center;
+	padding-left: 1rem;
+	vertical-align: middle;
+	flex: 1 0 20%;
+	margin-bottom: 0;
+	text-transform: none;
+}
+.form-field-thin .form-field-label + input {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 .form-field-header {
@@ -377,6 +424,10 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 .form-field-help-text {
 	color: #999;
 	font-size: 11px;
+}
+
+.field-help-text a {
+	border-bottom: 1px currentColor solid;
 }
 
 .project-form-error {
@@ -555,6 +606,9 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	margin-right: 1.5rem;
 	width: 80px;
 	height: 80px;
+	-webkit-user-drag: none;
+	-moz-user-drag: none;
+	user-drag: none;
 }
 
 .dropzone-file-preview img {
@@ -720,6 +774,16 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 
 .hidden {
 	display: none;
+}
+
+[draggable] {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	/* Required to make elements draggable in old WebKit */
+	-khtml-user-drag: element;
+	-webkit-user-drag: element;
 }
 
 @font-face {

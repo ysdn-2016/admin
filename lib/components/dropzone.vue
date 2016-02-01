@@ -6,6 +6,8 @@
 		<div class="dropzone-files" v-show="assets.length">
 			<asset
 				v-for="(index, asset) in assets"
+				v-draggable="{ index: index, dragged: 'dragged' }"
+				v-dropzone="sort(assets, index, $droptag, $dropdata)"
 				:asset="asset"
 				:index="index"
 				:show-insert-button="showInsertButton"
@@ -126,6 +128,14 @@ export default {
 			var data = e.dataTransfer
 			var files = data.files
 			this.handleFiles(files)
+		},
+
+		sort (list, id, tag, data) {
+
+		},
+
+		move (from, to, id, tag, data) {
+
 		},
 
 		handleFiles (files) {

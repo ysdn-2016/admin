@@ -1,5 +1,5 @@
 <template>
-	<div class="dropzone-file">
+	<div class="dropzone-file" draggable>
 		<a class="dropzone-file-preview" target="_blank"
 			:href="url"
 			:style="{ 'background-image': 'url(' + url + ')' }"></a>

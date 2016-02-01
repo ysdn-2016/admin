@@ -14,7 +14,7 @@
 				<span class="project-draft-checkbox-box"></span>
 				Draft
 			</label>
-			<p class="form-field-note">All posts are temporarily locked in draft mode until the site is live.</p>
+			<p class="form-field-note">Draft mode won't have any effect until the site is live.</p>
 		</div>
 		<div class="form-field project-title-field">
 			<label class="form-field-label"  for="title">Title</label>
@@ -64,7 +64,7 @@
 		</div>
 		<div class="form-field project-contents-field">
 			<label class="form-field-label">Description</label>
-			<editor :assets="assets" :content.sync="contents" :size="type === ProjectTypes.CASE_STUDY ? 20 : 8">
+			<editor :assets="assets" :content.sync="contents" placeholder="Enter a description of this project" :size="type === ProjectTypes.CASE_STUDY ? 20 : 8">
 		</div>
 		<div class="form-field project-assets-field">
 			<header class="form-field-header">

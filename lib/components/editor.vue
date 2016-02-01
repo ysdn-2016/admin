@@ -7,12 +7,12 @@
 			</div>
 			<a class="editor-help-markdown" href="https://guides.github.com/features/mastering-markdown/#what" target="_blank">Markdown is supported</a>
 		</header>
-		<textarea placeholder="Enter a description of this project"
+		<textarea :placeholder="placeholder"
 			 :rows="size"
 			 v-el:editor
 			 v-model="content"
 			 v-show="!previewing">{{ contents }}</textarea>
-		<div class="editor-preview" v-el:preview v-if="previewing" v-html="content | link_assets assets | markdown | default 'Nothing to preview'"></div>
+		<div class="editor-preview" v-el:preview v-if="previewing" v-html="renderedContent | markdown | default 'Nothing to preview'"></div>
 	</div>
 </template>
 
@@ -21,6 +21,8 @@
 import autosize from 'autosize'
 import fitvids from 'fitvids'
 
+import linkAssets from '../filters/assets'
+
 export default {
 
 	name: 'Editor',
@@ -28,11 +30,15 @@ export default {
 	props: {
 		assets: {
 			type: Array,
-			required: true
+			default: () => []
 		},
 		content: {
 			type: String,
 			required: true
+		},
+		placeholder: {
+			type: String,
+			default: ''
 		},
 		size: {
 			type: Number,
@@ -48,6 +54,13 @@ export default {
 
 	ready () {
 		autosize(this.$els.editor)
+	},
+
+	computed: {
+		renderedContent: function () {
+			if (!this.assets.length) return this.content
+			return linkAssets(this.content, this.assets)
+		}
 	},
 
 	watch: {
