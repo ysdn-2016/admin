@@ -161,6 +161,7 @@ function validate (file) {
 
 function imageSaveFailure (err) {
 	console.log(err)
+	Raven.captureException(err)
 	alert('There was an error saving this image. Try again later, or contact Ross for help.')
 }
 
