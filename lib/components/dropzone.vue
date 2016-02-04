@@ -6,8 +6,6 @@
 		<div class="dropzone-files" v-show="assets.length">
 			<asset
 				v-for="(index, asset) in assets"
-				v-draggable="{ index: index, dragged: 'dragged' }"
-				v-dropzone="sort(assets, index, $droptag, $dropdata)"
 				:asset="asset"
 				:index="index"
 				:show-insert-button="showInsertButton"
@@ -130,14 +128,6 @@ export default {
 			this.handleFiles(files)
 		},
 
-		sort (list, id, tag, data) {
-
-		},
-
-		move (from, to, id, tag, data) {
-
-		},
-
 		handleFiles (files) {
 			Array.from(files).forEach(file => {
 				validate(file).then(file => this.save(file))
@@ -161,7 +151,6 @@ function validate (file) {
 
 function imageSaveFailure (err) {
 	console.log(err)
-	Raven.captureException(err)
 	alert('There was an error saving this image. Try again later, or contact Ross for help.')
 }
 
