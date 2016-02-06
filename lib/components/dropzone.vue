@@ -13,9 +13,13 @@
 				@insert="onInsertContent"></asset>
 		</div>
 		<div class="dropzone-prompt" v-show="assets.length < limit">
-			<div class="dropzone-help">
+			<div class="dropzone-help" v-show="!saving">
 				<img :src="imageIconSrc" class="dropzone-help-icon" />
 				<span class="dropzone-help-text">{{ prompt }}</span>
+			</div>
+			<div class="dropzone-help" v-show="saving">
+				<span class="dropzone-spinner"></span>
+				<span class="dropzone-help-text">Saving...</span>
 			</div>
 			<input type="file" name="file" class="dropzone-file" multiple
 				v-el:input
@@ -70,6 +74,7 @@ export default {
 
 	data () {
 		return {
+			saving: false,
 			errors: []
 		}
 	},
@@ -129,14 +134,24 @@ export default {
 		},
 
 		handleFiles (files) {
-			Array.from(files).forEach(file => {
-				validate(file).then(file => this.save(file))
+			this.saving = true
+			const tasks = Array.from(files).map(file => {
+				return validate(file).then(file => this.save(file))
+			})
+			Promise.all(tasks).then(() => {
+				this.saving = false
+			}).catch(err => {
+				this.saving = false
+				console.warn('Dropzone#handleFiles threw an error')
+				console.error(err.stack)
 			})
 		},
 
 		save (file) {
 			return api.assets.save(auth.user.id, this.projectId, file)
-				.then(res => this.assets.push(res.asset))
+				.then(res => {
+					this.assets.push(res.asset)
+				})
 				.catch(imageSaveFailure)
 		}
 

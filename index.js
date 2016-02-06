@@ -23,3 +23,7 @@ function init (err) {
 auth.check()
 	.then(init)
 	.catch(init)
+
+window.addEventListener('unhandledrejection', e => {
+	Raven.captureException(e.reason)
+})

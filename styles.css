@@ -559,6 +559,19 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	padding-right: 1em;
 }
 
+.dropzone-spinner {
+	display: inline-block;
+	border: 3px #ccc solid;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+	margin-right: 12px;
+	-webkit-animation: rotate 600ms linear infinite;
+	animation: rotate 600ms linear infinite;
+}
+
 .dropzone-over-limit {
 	margin-bottom: 2rem;
 	color: #7f7f7f;
@@ -800,4 +813,14 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	font-style: normal;
 	src: url("assets/fonts/ProximaNova-Semibold.woff") format("woff"),
 	url("assets/fonts/ProximaNova-Semibold.ttf") format("truetype");
+}
+
+@-webkit-keyframes rotate {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+@keyframes rotate {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
 }

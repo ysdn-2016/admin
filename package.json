@@ -16,8 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "autosize": "^3.0.14",
+    "bluebird": "^3.2.1",
     "component-emitter": "^1.2.0",
-    "es6-promise": "^3.0.2",
     "extend": "^3.0.0",
     "file-size": "^1.0.0",
     "file-type": "^3.3.0",
