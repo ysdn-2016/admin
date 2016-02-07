@@ -73,9 +73,15 @@
 			</header>
 			<dropzone :show-insert-button="type === ProjectTypes.CASE_STUDY" :assets="assets" :limit="12" @insert="insertImage"></dropzone>
 		</div>
-		<div class="form-field form-advanced-actions" v-if="published">
-			<a @click.prevent="delete">Delete Project</a>
-		</div>
+		<footer class="project-form-footer">
+			<div class="project-form-footer-context">
+				<a v-link="{ name: 'home' }" class="button">{{ published  ? 'Back' : 'Cancel' }}</a>
+			</div>
+			<a @click.prevent="delete" class="button destructive" v-if="published">Delete Project</a>
+			<div class="project-form-footer-actions">
+				<a @click.prevent="save" class="button primary" :class="{ 'disabled': !valid }">{{ saveButtonTitle }}</a>
+			</div>
+		</footer>
 	</form>
 </template>
 

@@ -75,8 +75,10 @@ button {
 	font-size: 12px;
 	vertical-align: middle;
 	cursor: pointer;
-	transition: color 200ms ease,
-	background 200ms ease;
+	transition:
+		color 200ms ease,
+		border 200ms ease,
+		background 200ms ease;
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
@@ -100,6 +102,13 @@ button.primary.disabled {
 a.button.destructive,
 button.destructive {
 	background: transparent;
+	border: 1px #ccc solid;
+	color: #999;
+}
+
+a.button.destructive:hover,
+button.destructive:hover {
+	border-color: #f58866;
 	color: #f58866;
 }
 
@@ -181,16 +190,13 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	padding: 1rem;
 }
 
-.form-advanced-actions {
-	margin-top: 8rem;
-	text-align: center;
-}
 
-.form-advanced-actions a {
+.button.dangerous {
+	background: none;
+	align-self: stretch;
 	border: 1px #ccc solid;
 	border-radius: 3px;
-	padding: 0.4rem 0.8rem;
-	font-size: 11px;
+	color: #ccc;
 	cursor: pointer;
 }
 
@@ -370,10 +376,15 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	opacity: 0.0;
 }
 
-.project-form-header {
+.project-form-header,
+.project-form-footer {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 2rem;
+}
+
+.project-form-footer {
+	margin: 4rem 0 0;
 }
 
 .project-form-header-context {

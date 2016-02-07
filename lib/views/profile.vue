@@ -53,6 +53,14 @@
 				<p>Are we missing an important network? <a href="https://www.facebook.com/messages/100007107395716">Let us know</a>.</p>
 			</div>
 		</div>
+		<footer class="project-form-footer">
+			<div class="project-form-footer-context">
+				<a v-link="{ name: 'home' }" class="button">Cancel</a>
+			</div>
+			<div class="project-form-footer-actions">
+				<a @click.prevent="save" class="button primary" :class="{ 'disabled': !valid }">Save</a>
+			</div>
+		</footer>
 	</form>
 
 </template>
