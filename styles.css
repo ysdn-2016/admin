@@ -603,9 +603,10 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 }
 
 .dropzone-file {
+	cursor: move;
 	display: flex;
 	flex-basis: 90%;
-	margin-bottom: 0.5rem;
+	padding-bottom: 0.5rem;
 	font-size: 12px;
 	text-align: left;
 }
@@ -797,6 +798,14 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	/* Required to make elements draggable in old WebKit */
 	-khtml-user-drag: element;
 	-webkit-user-drag: element;
+}
+
+[is-dragged-over] {
+	opacity: 0.6;
+}
+
+[is-dragged] {
+	opacity: 0.2;
 }
 
 @font-face {

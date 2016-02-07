@@ -6,6 +6,7 @@
 		<div class="dropzone-files" v-show="assets.length">
 			<asset
 				v-for="(index, asset) in assets"
+				v-draggable="assets"
 				:asset="asset"
 				:index="index"
 				:show-insert-button="showInsertButton"
@@ -39,6 +40,7 @@ import config from '../config'
 import router from '../router'
 
 import validateFile from '../helpers/files'
+import moveArrayItem from '../helpers/move-array-item'
 
 import Asset from './asset.vue'
 
@@ -101,6 +103,14 @@ export default {
 		window.removeEventListener('drop', prevent)
 	},
 
+	events: {
+		sort (args) {
+			moveArrayItem(this.assets, args.from, args.to)
+			api.assets.setOrder(auth.user.id, this.projectId, this.assets)
+				.catch(error('There was an error updating the asset order. Try again later, or contact Ross for help.'))
+		}
+	},
+
 	methods: {
 
 		onFileSelect () {
@@ -128,8 +138,7 @@ export default {
 		},
 
 		drop (e)  {
-			var data = e.dataTransfer
-			var files = data.files
+			var files = e.dataTransfer.files
 			this.handleFiles(files)
 		},
 
