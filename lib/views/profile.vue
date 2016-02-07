@@ -34,23 +34,27 @@
 				</div>
 				<div class="form-field form-field-thin">
 					<label class="form-field-label" for="twitter">Twitter</label>
-					<input type="text" id="twitter" v-model="twitter" placeholder="@username" />
+					<input type="text" id="twitter" v-model="twitter" placeholder="username" />
 				</div>
 				<div class="form-field form-field-thin">
 					<label class="form-field-label" for="instagram">Instagram</label>
-					<input type="text" id="instagram" v-model="instagram" placeholder="@username" />
+					<input type="text" id="instagram" v-model="instagram" placeholder="username" />
 				</div>
 				<div class="form-field form-field-thin">
 					<label class="form-field-label" for="linkedin">LinkedIn</label>
-					<input type="text" id="linkedin" v-model="linkedin" placeholder="@username" />
+					<input type="text" id="linkedin" v-model="linkedin" placeholder="username" />
+				</div>
+				<div class="form-field form-field-thin">
+					<label class="form-field-label" for="dribbble">Dribbble</label>
+					<input type="text" id="dribbble" v-model="dribbble" placeholder="username" />
 				</div>
 				<div class="form-field form-field-thin">
 					<label class="form-field-label" for="github">GitHub</label>
-					<input type="text" id="github" v-model="github" placeholder="@username" />
+					<input type="text" id="github" v-model="github" placeholder="username" />
 				</div>
 			</div>
 			<div class="field-help-text">
-				<p>Are we missing an important network? <a href="https://www.facebook.com/messages/100007107395716">Let us know</a>.</p>
+				<p>Provide a full link (http://yoursite.com) to your website, and your username for the other networks.<br/>Are we missing an important network? <a href="https://www.facebook.com/messages/100007107395716">Let us know</a>.</p>
 			</div>
 		</div>
 		<footer class="project-form-footer">
@@ -103,6 +107,7 @@ export default {
 			twitter: user.twitter || '',
 			instagram: user.instagram || '',
 			linkedin: user.linkedin || '',
+			dribbble: user.dribbble || '',
 			github: user.github || ''
 		}
 	},
@@ -116,6 +121,7 @@ export default {
 			if (hasLength(this.twitter) && isURL(this.twitter)) return false
 			if (hasLength(this.instagram) && isURL(this.instagram)) return false
 			if (hasLength(this.linkedin) && isURL(this.linkedin)) return false
+			if (hasLength(this.dribbble) && isURL(this.dribbble)) return false
 			if (hasLength(this.github) && isURL(this.github)) return false
 			return true
 		},
@@ -133,6 +139,7 @@ export default {
 				twitter: this.twitter,
 				instagram: this.instagram,
 				linkedin: this.linkedin,
+				dribbble: this.dribbble,
 				github: this.github
 			}).then(res => {
 				extend(auth.user, res)
