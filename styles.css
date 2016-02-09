@@ -776,6 +776,14 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	color: #5ac2b4;
 }
 
+.editor-preview a.button {
+	background: #444;
+	border-bottom: none;
+	min-width: 120px;
+	color: #fff;
+	text-align: center;
+}
+
 .editor-preview blockquote {
 	border-left: 3px rgba(0, 0, 0, 0.1) solid;
 	margin: 1em 0;
