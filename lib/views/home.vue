@@ -23,7 +23,7 @@
 				<a v-link="{ name: 'project:new' }" class="button">Add a Project</a>
 			</div>
 			<div class="project-list" v-if="!!projects.length">
-				<template v-for="project in projects">
+				<template v-for="project in sortedProjects">
 					<a v-link="{ name: 'project', params: { id: project.id }}" class="project-preview">
 						<div class="project-preview-thumbnail" :style="{ 'background-image': 'url(' + project.thumbnail.url + ')' }"></div>
 						<div class="project-preview-details">
@@ -67,6 +67,13 @@ export default {
 		},
 		maxProjectCount () {
 			return config.api.maxProjectCount
+		},
+		sortedProjects () {
+			return this.projects.sort((a, b) => {
+				if (a.title < b.title) return -1
+				if (a.title > b.title) return 1
+				return 0
+			})
 		},
 		ProjectTypes () {
 			return ProjectTypes
