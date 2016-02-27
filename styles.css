@@ -511,6 +511,63 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 }
 
 /**
+ * Profile Form
+ */
+
+.profile-side-notes-help-text {
+	margin-bottom: 2rem;
+}
+
+.profile-side-notes-options {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.profile-side-notes-option {
+	display: flex;
+	flex: 1 0 100%;
+	flex-direction: column;
+	margin-bottom: 1rem;
+}
+
+.profile-side-notes-option-header {
+	display: flex;
+	margin-bottom: 1rem;
+}
+
+.profile-side-notes-option-label {
+	cursor: pointer;
+	font-weight: bold;
+	margin-bottom: 0.25rem;
+}
+
+.profile-side-notes-option-help {
+	font-size: 12px;
+	max-width: 35em;
+}
+
+.profile-side-notes-option-checkbox {
+	display: inline-block;
+	background: #f2f2f2;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 4px;
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+	cursor: pointer;
+	margin: 0.15rem 1rem 0 0.25rem;
+}
+
+.profile-side-notes-option-checkbox--enabled {
+	background-image: url("assets/icon-check.svg");
+}
+
+.profile-side-notes-option-editor {
+	margin-left: 2.75rem;
+}
+
+/**
  * Dropzone
  */
 
@@ -695,14 +752,35 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	color: #f65c4d;
 }
 
+/**
+ * Editor
+ */
 
 .editor {
 }
 
 .editor textarea {
-	border-top-left-radius: 0;
 	margin: 0;
-	min-height: 150px;
+	padding: 1rem 1rem;
+}
+
+.editor:not(.editor--no-controls) textarea {
+	border-top-left-radius: 0;
+}
+
+.editor--character-limit textarea {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	vertical-align: top;
+}
+
+.editor--character-limit-error .editor-limit {
+	color: #ef4862;
+}
+
+.editor--character-limit-error textarea,
+.editor--character-limit-error .editor-limit {
+	background: #fff5f7;
 }
 
 .editor-action-bar {
@@ -716,40 +794,54 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 
 .editor-action {
 	background: #f9f9f9;
-	display: block;
+	display: flex;
 	opacity: 0.25;
-	padding: 1rem 2rem;
-	font-size: 15px;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 1.25rem 0.5rem 1rem;
+	font-size: 13px;
 	font-weight: bold;
 	vertical-align: middle;
 	cursor: pointer;
 }
 
-.editor-action:first-child {
-	border-top-left-radius: 4px;
-}
+.editor-action:first-child { border-top-left-radius: 4px; }
+.editor-action:last-child { border-top-right-radius: 4px; }
 
-.editor-action:last-child {
-	border-top-right-radius: 4px;
-}
+.editor-action:hover { opacity: 0.5; }
+.editor-action.active { opacity: 1.0; }
 
-.editor-action:hover {
+.editor-action::before {
+	content: '';
+	display: block;
+	background: transparent;
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 14px;
+	height: 14px;
+	margin-right: 0.5rem;
 	opacity: 0.5;
 }
 
-.editor-action.active {
-	opacity: 1.0;
+.editor-markdown-action::before {
+	background-image: url('assets/icon-edit.svg');
+	width: 11px;
+	height: 11px;
+}
+
+.editor-preview-action::before {
+	background-image: url('assets/icon-view.svg');
 }
 
 .editor-help-markdown {
 	align-self: center;
-	padding: 1rem;
+	padding: 0.75rem 1rem;
 	color: #999;
 	font-size: 11px;
 }
 
 .editor-help-markdown::before {
-	background: transparent url("assets/icon-markdown.svg") no-repeat;
+	background: transparent url('assets/icon-markdown.svg') no-repeat;
 	background-size: contain;
 	content: " ";
 	display: inline-block;
@@ -761,12 +853,26 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	shape-rendering: crispEdges;
 }
 
+.editor-limit {
+	background: #f9f9f9;
+	padding: 0 1rem 0.75rem;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	color: #999;
+	font-size: 12px;
+	text-align: right;
+}
+
+.editor-limit-number {
+	cursor: help;
+}
+
 .editor-preview {
 	background: #f9f9f9;
 	border-top-right-radius: 4px;
 	border-bottom-left-radius: 4px;
 	border-bottom-right-radius: 4px;
-	padding: 0.5rem 1.5rem;
+	padding: 1rem 1.5rem;
 	font-size: 18px;
 	line-height: 1.5;
 }
