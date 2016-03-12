@@ -530,6 +530,10 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	margin-bottom: 1rem;
 }
 
+.profile-side-notes-option--disabled {
+	opacity: 0.5;
+}
+
 .profile-side-notes-option-header {
 	display: flex;
 	margin-bottom: 1rem;

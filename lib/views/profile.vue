@@ -73,7 +73,7 @@
 				<p>Side notes are extra pieces of information on <a href="http://{{ domain }}/{{ name | slug }}" target="_blank">your profile</a> that you'd like to share with site visitors.<br>Pick 2&ndash;4 categories to be shown on your profile.</p>
 			</div>
 			<div class="profile-side-notes-options">
-				<div class="profile-side-notes-option" v-for="note in sideNotes">
+				<div class="profile-side-notes-option" v-for="note in sideNotes" :class="{ 'profile-side-notes-option--disabled': isSideNoteOptionDisabled(note) }">
 					<div class="profile-side-notes-option-header">
 						<div class="profile-side-notes-option-checkbox"
 							:class="{ 'profile-side-notes-option-checkbox--enabled': note.enabled }"
@@ -197,6 +197,12 @@ export default {
 			return config.api.maxProfileSideNoteCharacterCount
 		},
 
+		hasMaximumSideNoteCount () {
+			const enabledSideNotesCount = this.sideNotes.filter(n => n.enabled).length
+			const maxSideNoteCount = config.api.maxSideNoteCount
+			return enabledSideNotesCount >= maxSideNoteCount
+		},
+
 		domain () {
 			return config.api.domain
 		}
@@ -223,6 +229,12 @@ export default {
 				auth.user.authenticated = true
 				router.go({ name: 'home' })
 			}).catch(error)
+		},
+
+		isSideNoteOptionDisabled (note) {
+			if (!this.hasMaximumSideNoteCount) return false
+			if (note.enabled) return false
+			return true
 		},
 
 		findSideNoteConfig (note) {
