@@ -159,7 +159,8 @@ export default {
 			instagram: user.instagram || '',
 			linkedin: user.linkedin || '',
 			dribbble: user.dribbble || '',
-			github: user.github || ''
+			github: user.github || '',
+			strip: user.strip || {}
 		}
 	},
 
@@ -223,7 +224,8 @@ export default {
 				instagram: this.instagram,
 				linkedin: this.linkedin,
 				dribbble: this.dribbble,
-				github: this.github
+				github: this.github,
+				strip: this.strip
 			}).then(res => {
 				extend(auth.user, res)
 				auth.user.authenticated = true
