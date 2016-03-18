@@ -97,7 +97,7 @@ import Editor from '../components/editor.vue'
 import Thumbnail from '../components/thumbnail.vue'
 
 const error = err => {
-	alert('An error occured. Open the console (⌘+opt+J), take a screen shot, and send it to Ross. (Sorry for the inconvenience)')
+	alert('There was an error while saving. Back up your text and try again in 5 minutes. If the issue still persists, Open the console (⌘+opt+J), take a screen shot, and send it to Ross. (Sorry for the inconvenience)')
 	console.error(err)
 }
 

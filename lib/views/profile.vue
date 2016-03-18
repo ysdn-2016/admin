@@ -38,27 +38,27 @@
 			<!-- Uploaded CV -->
 			<label class="form-field-label">Social Links</label>
 			<div class="form-field-row">
-				<div class="form-field form-field-thin">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--not-url-error': !isURL(url) }">
 					<label class="form-field-label" for="url">URL</label>
 					<input type="text" id="url" v-model="url" placeholder="http://yoursite.com" />
 				</div>
-				<div class="form-field form-field-thin">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(twitter) }">
 					<label class="form-field-label" for="twitter">Twitter</label>
 					<input type="text" id="twitter" v-model="twitter" placeholder="username" />
 				</div>
-				<div class="form-field form-field-thin">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(instagram) }">
 					<label class="form-field-label" for="instagram">Instagram</label>
 					<input type="text" id="instagram" v-model="instagram" placeholder="username" />
 				</div>
-				<div class="form-field form-field-thin">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(linkedin) }">
 					<label class="form-field-label" for="linkedin">LinkedIn</label>
 					<input type="text" id="linkedin" v-model="linkedin" placeholder="username" />
 				</div>
-				<div class="form-field form-field-thin">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(dribbble) }">
 					<label class="form-field-label" for="dribbble">Dribbble</label>
 					<input type="text" id="dribbble" v-model="dribbble" placeholder="username" />
 				</div>
-				<div class="form-field form-field-thin">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(github) }">
 					<label class="form-field-label" for="github">GitHub</label>
 					<input type="text" id="github" v-model="github" placeholder="username" />
 				</div>
@@ -120,7 +120,7 @@ const hasLength = str => !!str.trim().length
 const clone = arr => arr.slice()
 
 const error = err => {
-	alert('An error occured. Open the console (⌘+opt+J), take a screen shot, and send it to Ross. (Sorry for the inconvenience)')
+	alert('There was an error while saving. Back up your text and try again in 5 minutes. If the issue still persists, Open the console (⌘+opt+J), take a screen shot, and send it to Ross. (Sorry for the inconvenience)')
 	console.error(err)
 }
 
@@ -241,6 +241,10 @@ export default {
 
 		findSideNoteConfig (note) {
 			return config.content.sideNotes.find(n => note.id === n.id)
+		},
+
+		isURL (str) {
+			return hasLength(str) && isURL(str)
 		},
 
 		toggleNote (note) {

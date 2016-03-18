@@ -426,6 +426,30 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 	border-bottom-left-radius: 0;
 }
 
+.form-field-thin--url-error .form-field-label,
+.form-field-thin--not-url-error .form-field-label {
+	background: #f2dede;
+}
+
+.form-field-thin--url-error input,
+.form-field-thin--not-url-error input {
+	background: #f7e9e9;
+}
+
+.form-field-thin--url-error::after,
+.form-field-thin--not-url-error::after {
+	content: 'No URLs, just the username';
+	position: absolute;
+	padding: 1rem;
+	right: 4px;
+	color: #d76b6b;
+	font-size: 12px;
+}
+
+.form-field-thin--not-url-error::after {
+	content: 'Invalid URL (include the http://)';
+}
+
 .form-field-header {
 	display: flex;
 	justify-content: space-between;
