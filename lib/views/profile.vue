@@ -42,6 +42,10 @@
 					<label class="form-field-label" for="url">URL</label>
 					<input type="text" id="url" v-model="url" placeholder="http://yoursite.com" />
 				</div>
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(behance) }">
+					<label class="form-field-label" for="behance">Behance</label>
+					<input type="text" id="behance" v-model="behance" placeholder="username" />
+				</div>
 				<div class="form-field form-field-thin" :class="{ 'form-field-thin--url-error': isURL(twitter) }">
 					<label class="form-field-label" for="twitter">Twitter</label>
 					<input type="text" id="twitter" v-model="twitter" placeholder="username" />
@@ -150,11 +154,11 @@ export default {
 		return {
 			name: user.name,
 			email: user.email,
-			url: user.url,
 			introduction: user.introduction || '',
 			biography: user.biography || '',
 			sideNotes: user.sideNotes || defaultSideNotes(),
 			url: user.url || '',
+			behance: user.behance || '',
 			twitter: user.twitter || '',
 			instagram: user.instagram || '',
 			linkedin: user.linkedin || '',
@@ -171,6 +175,7 @@ export default {
 
 			// Social Links
 			if (hasLength(this.url) && !isURL(this.url)) return false
+			if (hasLength(this.behance) && isURL(this.behance)) return false
 			if (hasLength(this.twitter) && isURL(this.twitter)) return false
 			if (hasLength(this.instagram) && isURL(this.instagram)) return false
 			if (hasLength(this.linkedin) && isURL(this.linkedin)) return false
@@ -220,6 +225,7 @@ export default {
 				biography: this.biography,
 				sideNotes: this.sideNotes,
 				url: this.url,
+				behance: this.behance,
 				twitter: this.twitter,
 				instagram: this.instagram,
 				linkedin: this.linkedin,
