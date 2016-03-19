@@ -257,7 +257,7 @@ export default {
 
 		isNotURL (str) {
 			return hasLength(str) && !isURL(str)
-		}
+		},
 
 		toggleNote (note) {
 			const enabledCount = this.sideNotes.filter(n => n.enabled).length
