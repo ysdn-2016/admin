@@ -38,7 +38,7 @@
 			<!-- Uploaded CV -->
 			<label class="form-field-label">Social Links</label>
 			<div class="form-field-row">
-				<div class="form-field form-field-thin" :class="{ 'form-field-thin--not-url-error': !isURL(url) }">
+				<div class="form-field form-field-thin" :class="{ 'form-field-thin--not-url-error': isNotURL(url) }">
 					<label class="form-field-label" for="url">URL</label>
 					<input type="text" id="url" v-model="url" placeholder="http://yoursite.com" />
 				</div>
@@ -164,7 +164,8 @@ export default {
 			linkedin: user.linkedin || '',
 			dribbble: user.dribbble || '',
 			github: user.github || '',
-			strip: user.strip || {}
+			strip: user.strip || {},
+			portrait: user.portrait || {}
 		}
 	},
 
@@ -231,7 +232,8 @@ export default {
 				linkedin: this.linkedin,
 				dribbble: this.dribbble,
 				github: this.github,
-				strip: this.strip
+				strip: this.strip,
+				portrait: this.portrait
 			}).then(res => {
 				extend(auth.user, res)
 				auth.user.authenticated = true
@@ -252,6 +254,10 @@ export default {
 		isURL (str) {
 			return hasLength(str) && isURL(str)
 		},
+
+		isNotURL (str) {
+			return hasLength(str) && !isURL(str)
+		}
 
 		toggleNote (note) {
 			const enabledCount = this.sideNotes.filter(n => n.enabled).length
