@@ -52,9 +52,7 @@ export default {
 			type: Number,
 			default: 8
 		},
-		limit: {
-			type: Number
-		}
+		limit: {}
 	},
 
 	data () {

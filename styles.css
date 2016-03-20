@@ -807,7 +807,8 @@ input[type="checkbox"][disabled]:checked + .project-draft-checkbox-box {
 }
 
 .editor--character-limit-error textarea,
-.editor--character-limit-error .editor-limit {
+.editor--character-limit-error .editor-limit,
+.editor--character-limit-error .editor-action {
 	background: #fff5f7;
 }
 

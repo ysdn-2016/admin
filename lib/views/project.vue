@@ -56,7 +56,7 @@
 		</div>
 		<div class="form-field project-contents-field">
 			<label class="form-field-label">Description</label>
-			<editor :assets="assets" :content.sync="contents" placeholder="Enter a description of this project" :size="type === ProjectTypes.CASE_STUDY ? 20 : 8">
+			<editor :assets="assets" :content.sync="contents" placeholder="Enter a description of this project" :size="type === ProjectTypes.CASE_STUDY ? 20 : 8" :limit="type === ProjectTypes.CASE_STUDY ? caseStudyMaxCharacters : standardProjectMaxCharacter">
 		</div>
 		<div class="form-field project-assets-field">
 			<header class="form-field-header">
@@ -101,8 +101,8 @@ const error = err => {
 	console.error(err)
 }
 
-// TODO: on save, maybe we can ping a Slack endpoint and trigger a deploy
-// through a Slackbot of some kind?
+const hasLength = str => str.trim().length > 0
+
 export default {
 
 	name: 'ProjectView',
@@ -137,10 +137,15 @@ export default {
 			return ProjectTypes
 		},
 		valid () {
-			return this.title.trim().length &&
-				this.contents.trim().length &&
-				this.category.trim().length &&
-				this.thumbnail && this.thumbnail.url
+			if (!hasLength(this.title)) return false
+			if (!hasLength(this.contents)) return false
+			if (!hasLength(this.category)) return false
+			if (!this.thumbnail || !this.thumbnail.url) return false
+			if (!hasLength(this.contents)) return false
+			if (this.type === ProjectTypes.STANDARD && this.contents.length > this.standardProjectMaxCharacter) return false
+			if (this.type === ProjectTypes.CASE_STUDY && this.contents.length > this.caseStudyMaxCharacters) return false
+
+			return true
 		},
 		domain () {
 			return config.domain
@@ -159,6 +164,12 @@ export default {
 			// if (!this.id) return 'Publish'
 			// return 'Save'
 			return 'Save'
+		},
+		standardProjectMaxCharacter () {
+			return config.api.maxStandardProjectCharacterCount
+		},
+		caseStudyMaxCharacters () {
+			return config.api.maxCaseStudyCharacterCount
 		}
 	},
 
@@ -173,7 +184,10 @@ export default {
 			this.contents += `\n\n![](${path})`
 		},
 		save () {
-			if (!this.valid) return
+			if (!this.valid) {
+				alert('The form has errors. Fix them to save this project.')
+				return
+			}
 			api.projects.save(auth.user.id, {
 				id: this.id,
 				type: this.type,
