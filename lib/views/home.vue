@@ -29,7 +29,6 @@
 						<div class="project-preview-details">
 							<div class="project-preview-title">
 								<span>{{ project.title }}</span>
-								<span class="project-preview-badge" v-if="project.draft">Draft</span>
 								<span class="project-preview-badge" v-if="project.type === ProjectTypes.CASE_STUDY">Case Study</span>
 							</div>
 							<div class="project-preview-slug" href="{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}" target="_blank">{{ domain }}/{{ user.name | slug }}/{{ project.title | slug }}</div>
