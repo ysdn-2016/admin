@@ -87,6 +87,7 @@ import config from '../config'
 import router from '../router'
 
 import slug from '../filters/slug'
+import markdownCharCount from '../helpers/markdown-character-count'
 
 import {
 	ProjectTypes
@@ -142,8 +143,8 @@ export default {
 			if (!hasLength(this.category)) return false
 			if (!this.thumbnail || !this.thumbnail.url) return false
 			if (!hasLength(this.contents)) return false
-			if (this.type === ProjectTypes.STANDARD && this.contents.length > this.standardProjectMaxCharacter) return false
-			if (this.type === ProjectTypes.CASE_STUDY && this.contents.length > this.caseStudyMaxCharacters) return false
+			if (this.type === ProjectTypes.STANDARD && markdownCharCount(this.contents.length) > this.standardProjectMaxCharacter) return false
+			if (this.type === ProjectTypes.CASE_STUDY && markdownCharCount(this.contents.length) > this.caseStudyMaxCharacters) return false
 
 			return true
 		},
