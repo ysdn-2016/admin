@@ -139,12 +139,14 @@ export default {
 		},
 		valid () {
 			if (!hasLength(this.title)) return false
+			console.log('Has Title Length')
 			if (!hasLength(this.contents)) return false
+			console.log('Has Content Length')
 			if (!hasLength(this.category)) return false
+			console.log('Has Category Length')
 			if (!this.thumbnail || !this.thumbnail.url) return false
-			if (!hasLength(this.contents)) return false
-			if (this.type === ProjectTypes.STANDARD && markdownCharCount(this.contents.length) > this.standardProjectMaxCharacter) return false
-			if (this.type === ProjectTypes.CASE_STUDY && markdownCharCount(this.contents.length) > this.caseStudyMaxCharacters) return false
+			if (this.type === ProjectTypes.STANDARD && markdownCharCount(this.contents) > this.standardProjectMaxCharacter) return false
+			if (this.type === ProjectTypes.CASE_STUDY && markdownCharCount(this.contents) > this.caseStudyMaxCharacters) return false
 
 			return true
 		},
