@@ -121,6 +121,7 @@ export default {
 			title: '',
 			contents: '',
 			owner_id: '',
+			weight: 2.5,
 			draft: true,
 			thumbnail: {},
 			assets: [],
@@ -139,11 +140,8 @@ export default {
 		},
 		valid () {
 			if (!hasLength(this.title)) return false
-			console.log('Has Title Length')
 			if (!hasLength(this.contents)) return false
-			console.log('Has Content Length')
 			if (!hasLength(this.category)) return false
-			console.log('Has Category Length')
 			if (!this.thumbnail || !this.thumbnail.url) return false
 			if (this.type === ProjectTypes.STANDARD && markdownCharCount(this.contents) > this.standardProjectMaxCharacter) return false
 			if (this.type === ProjectTypes.CASE_STUDY && markdownCharCount(this.contents) > this.caseStudyMaxCharacters) return false
@@ -199,7 +197,8 @@ export default {
 				contents: this.contents,
 				category: this.category,
 				draft: this.draft,
-				assets: this.assets
+				assets: this.assets,
+				weight: this.weight
 			}).then(res => {
 				router.go({ name: 'home' })
 			}).catch(error)
