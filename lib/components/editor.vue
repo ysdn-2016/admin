@@ -5,7 +5,7 @@
 				<span @click.prevent="enableEditor" class="editor-action editor-markdown-action" :class="{ 'active': !previewing }">Write</span>
 				<span @click.prevent="enablePreview" class="editor-action editor-preview-action" :class="{ 'active': previewing }">Preview</span>
 			</div>
-			<a class="editor-help-markdown" href="http://staging.ysdn2016.com/taylor-emmerson/markdown-example-page/" target="_blank">Markdown is supported</a>
+			<a class="editor-help-markdown" href="https://dl.dropboxusercontent.com/u/68882376/md-example.htm" target="_blank">Markdown is supported</a>
 		</header>
 		<textarea :placeholder="placeholder"
 			 :rows="size"
